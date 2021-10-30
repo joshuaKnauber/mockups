@@ -1,25 +1,15 @@
-import React, { Suspense, useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Stage, PerspectiveCamera } from '@react-three/drei'
-
-import canvasToImage from 'canvas-to-image';
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 
 import './Scene.css';
-
-
-function Box(props) {
-  return (
-    <mesh receiveShadow castShadow
-      {...props}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={'white'} roughness={0} metalness={1} />
-    </mesh>
-  )
-}
+import MockupScene from './MockupScene';
 
 
 function Scene() {
+
+  const [doDownload, setDoDownload] = useState(false)
 
   // VIEW SETTINGS
   const [groundShadows, setGroundShadows] = useState(true)
@@ -30,13 +20,12 @@ function Scene() {
   const [hasAlpha, setHasAlpha] = useState(false)
   const [color, setColor] = useState("")
   
-  const canvasRef = useRef()
-  const cameraRef = useRef()
-  const sceneRef = useRef()
-  
   const colorInpRef = useRef()
   const widthInpRef = useRef()
   const heightInpRef = useRef()
+
+  const canvasRef = useRef()
+  const cameraRef = useRef()
   
   const setBackgroundColor = () => {
     document.getElementsByClassName("App")[0].style.backgroundColor = colorInpRef.current.value
@@ -58,10 +47,7 @@ function Scene() {
     let scale = Math.min(xScale, yScale)
     scale = scale<1 ? scale-0.02 : 1
 
-    canvasRef.current.style.transform = `scale(${scale})`
-  }
-
-  const downloadImage = () => {
+    document.getElementsByTagName("canvas")[0].style.transform = `scale(${scale})`
   }
 
 
@@ -83,7 +69,7 @@ function Scene() {
     setCameraSize()
 
     // set default background color
-    colorInpRef.current.value = "#F3AB58"
+    colorInpRef.current.value = "#F19F41"
     setBackgroundColor()
 
     return () => {
@@ -96,7 +82,7 @@ function Scene() {
     <div className="sceneContainer">
 
       <div className="viewBtnsContainer">
-        <button className="iconToggle" onClick={() => downloadImage()}>download</button>
+        <button className="iconToggle" onClick={() => setDoDownload(true)}>download</button>
         <button className="iconToggle" onClick={() => setGroundShadows(!groundShadows)}>ground shadows {String(groundShadows)}</button>
         <button className="iconToggle" onClick={() => setObjectShadows(!objectShadows)}>object shadows {String(objectShadows)}</button>
         <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)}>orbit {String(orbitEnabled)}</button>
@@ -107,24 +93,23 @@ function Scene() {
       </div>
 
       <div className="canvasContainer">
-        <Canvas colorManagement shadowMap shadows ref={canvasRef}>
+        <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
           <OrbitControls makeDefault enabled={orbitEnabled} />
           <PerspectiveCamera makeDefault ref={cameraRef} />
 
-          <scene ref={sceneRef}>
-            <Suspense fallback={null}>
-              <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt">
-                <Box position={[-1.2, 0, 0]} />
-                <Box position={[-0.3, 0.3, 0.5]} />
-              </Stage>
-            </Suspense>
-          </scene>
+          <MockupScene
+            groundShadows={groundShadows}
+            objectShadows={objectShadows}
+            doDownload={doDownload}
+            setDoDownload={setDoDownload}
+            width={widthInpRef.current ? widthInpRef.current.value : 0}
+            height={heightInpRef.current ? heightInpRef.current.value : 0}
+          />
 
           {!hasAlpha && <color attach="background" args={[color]} />}
 
         </Canvas>
       </div>
-
 
     </div>
   );
