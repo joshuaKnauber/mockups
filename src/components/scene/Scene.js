@@ -15,6 +15,8 @@ function Scene() {
   const [groundShadows, setGroundShadows] = useState(true)
   const [objectShadows, setObjectShadows] = useState(true)
 
+  const [fov, setFov] = useState(60)
+
   const [orbitEnabled, setOrbitEnabled] = useState(true)
 
   const [hasAlpha, setHasAlpha] = useState(false)
@@ -47,15 +49,17 @@ function Scene() {
     let scale = Math.min(xScale, yScale)
     scale = scale<1 ? scale-0.02 : 1
 
-    document.getElementsByTagName("canvas")[0].style.transform = `scale(${scale})`
+    canvasRef.current.style.transform = `scale(${scale})`
   }
 
 
   useEffect(() => {
     if (hasAlpha) {
-      document.getElementsByClassName("App")[0].style.backgroundColor = "unset"
+      document.getElementsByClassName("App")[0].classList.add("alpha")
+      canvasRef.current.classList.add("alpha")
     } else {
-      document.getElementsByClassName("App")[0].style.backgroundColor = colorInpRef.current.value
+      document.getElementsByClassName("App")[0].classList.remove("alpha")
+      canvasRef.current.classList.remove("alpha")
     }
   }, [hasAlpha])
 
@@ -64,12 +68,12 @@ function Scene() {
     window.addEventListener("resize", setCameraSize)
 
     // set default camera size
-    widthInpRef.current.value = window.innerWidth
-    heightInpRef.current.value = window.innerHeight
+    widthInpRef.current.value = window.innerWidth-20
+    heightInpRef.current.value = window.innerHeight-20
     setCameraSize()
 
     // set default background color
-    colorInpRef.current.value = "#F19F41"
+    colorInpRef.current.value = "#7D53DF"
     setBackgroundColor()
 
     return () => {
@@ -90,12 +94,13 @@ function Scene() {
         <input type="color" onChange={setBackgroundColor} ref={colorInpRef}></input>
         <input type="number" onChange={setCameraSize} ref={widthInpRef}></input>
         <input type="number" onChange={setCameraSize} ref={heightInpRef}></input>
+        <input type="number" value={fov} onChange={(evt) => setFov(Math.max(2, evt.target.value))}></input>
       </div>
 
       <div className="canvasContainer">
         <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
           <OrbitControls makeDefault enabled={orbitEnabled} />
-          <PerspectiveCamera makeDefault ref={cameraRef} />
+          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} />
 
           <MockupScene
             groundShadows={groundShadows}

@@ -20,7 +20,7 @@
 
 
 canvas {
-    border: 3px dashed rgba(255, 255, 255, 0.5);
+    /* border: 2px solid white; */
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

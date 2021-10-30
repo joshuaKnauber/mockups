@@ -9,7 +9,7 @@ function Box(props) {
     <mesh receiveShadow castShadow
       {...props}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={'white'} roughness={0} metalness={1} />
+      <meshStandardMaterial color={'orange'} roughness={1} metalness={0} />
     </mesh>
   )
 }
