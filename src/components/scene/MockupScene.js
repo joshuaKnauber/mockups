@@ -1,23 +1,14 @@
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useRef, useEffect, useState } from 'react'
 
-import { useFrame } from '@react-three/fiber'
+import { useFrame, extend, useThree } from '@react-three/fiber'
 import { Stage } from '@react-three/drei'
 
-
-function Box(props) {
-  return (
-    <mesh receiveShadow castShadow
-      {...props}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={'orange'} roughness={1} metalness={0} />
-    </mesh>
-  )
-}
+import Shoebox from '../models/Shoebox'
 
 
 function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
 
-  const sceneRef = useRef()
+  const meshRef = useRef()
 
   const downloadImage = (state) => {
     if (!doDownload) return
@@ -32,14 +23,20 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     setDoDownload(false)
   }
 
+
   useFrame((state) => downloadImage(state))
 
   return (
-    <scene ref={sceneRef}>
+    <scene>
       <Suspense fallback={null}>
-        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt">
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[-0.3, 0.3, 0.5]} />
+        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="soft" >
+
+          <mesh receiveShadow castShadow position={[0, 0, 0]} ref={meshRef}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={'orange'} roughness={1} metalness={0} />
+          </mesh>
+
+          {/* <Shoebox/> */}
         </Stage>
       </Suspense>
     </scene>

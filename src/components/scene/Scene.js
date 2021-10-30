@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 
+import { FaCamera } from 'react-icons/fa';
+
 import './Scene.css';
 import MockupScene from './MockupScene';
 
@@ -38,7 +40,6 @@ function Scene() {
   const setCameraSize = () => {
     const width = Math.max(1, widthInpRef.current.value)
     const height = Math.max(1, heightInpRef.current.value)
-    console.log(width, height)
 
     const elem = document.getElementsByClassName("canvasContainer")[0]
     elem.style.width = `${width}px`
@@ -73,8 +74,11 @@ function Scene() {
     setCameraSize()
 
     // set default background color
-    colorInpRef.current.value = "#7D53DF"
+    colorInpRef.current.value = "#171717"
     setBackgroundColor()
+
+    // set alpha default
+    setHasAlpha(false)
 
     return () => {
       window.removeEventListener("resize", setCameraSize)
@@ -86,7 +90,6 @@ function Scene() {
     <div className="sceneContainer">
 
       <div className="viewBtnsContainer">
-        <button className="iconToggle" onClick={() => setDoDownload(true)}>download</button>
         <button className="iconToggle" onClick={() => setGroundShadows(!groundShadows)}>ground shadows {String(groundShadows)}</button>
         <button className="iconToggle" onClick={() => setObjectShadows(!objectShadows)}>object shadows {String(objectShadows)}</button>
         <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)}>orbit {String(orbitEnabled)}</button>
@@ -96,6 +99,8 @@ function Scene() {
         <input type="number" onChange={setCameraSize} ref={heightInpRef}></input>
         <input type="number" value={fov} onChange={(evt) => setFov(Math.max(2, evt.target.value))}></input>
       </div>
+
+      <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
       <div className="canvasContainer">
         <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>

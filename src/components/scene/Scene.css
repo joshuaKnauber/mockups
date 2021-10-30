@@ -34,4 +34,18 @@ canvas {
     display: flex;
     flex-direction: row;
     z-index: 1;
+    /* visibility: hidden; */
+}
+
+
+.downloadBtn {
+    background-color: black;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+    border-radius: 5px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 12px;
 }

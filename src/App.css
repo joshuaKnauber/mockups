@@ -1,5 +1,36 @@
+@font-face {
+    font-family: 'ClarityCity';
+    font-weight: 400;
+    src: local('ClarityCity'), url(./fonts/ClarityCity-Regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'ClarityCity';
+    font-weight: 400;
+    font-style: italic;
+    src: local('ClarityCity'), url(./fonts/ClarityCity-RegularItalic.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'ClarityCity';
+    font-weight: 600;
+    src: local('ClarityCity'), url(./fonts/ClarityCity-SemiBold.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'ClarityCity';
+    font-weight: 800;
+    src: local('ClarityCity'), url(./fonts/ClarityCity-Bold.woff) format('woff');
+}
+
+
 body {
     background-color: black;
+}
+
+
+* {
+    font-family: "ClarityCity";
 }
 
 
@@ -21,4 +52,5 @@ button {
     outline: none;
     background-color: white;
     cursor: pointer;
+    font-weight: 600;
 }
