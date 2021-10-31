@@ -54,3 +54,27 @@ button {
     cursor: pointer;
     font-weight: 600;
 }
+
+
+[bottom-tooltip]:before {            
+    position : absolute;
+    content : attr(bottom-tooltip);
+    opacity : 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 4px;
+    top: 45px;
+    transition: opacity 0.1s ease-in-out;
+    white-space: nowrap;
+}
+
+[bottom-tooltip]:hover:before {        
+    opacity : 1;
+}
+
+[bottom-tooltip]:not([data-tooltip-persistent]):before {
+    pointer-events: none;
+}

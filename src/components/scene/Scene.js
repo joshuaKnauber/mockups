@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 
-import { FaCamera } from 'react-icons/fa';
+import { FaCamera, FaTint, FaCube, FaCubes, FaCompass } from 'react-icons/fa';
 
 import './Scene.css';
+import GroundShadowIcon from '../../assets/img/groundShadow.svg'
+import ObjectShadowIcon from '../../assets/img/objectShadow.svg'
 import MockupScene from './MockupScene';
 
 
@@ -17,12 +19,14 @@ function Scene() {
   const [groundShadows, setGroundShadows] = useState(true)
   const [objectShadows, setObjectShadows] = useState(true)
 
-  const [fov, setFov] = useState(60)
+  const [fov, setFov] = useState(0)
 
   const [orbitEnabled, setOrbitEnabled] = useState(true)
 
   const [hasAlpha, setHasAlpha] = useState(false)
   const [color, setColor] = useState("")
+
+  const [cameraPosOverwrite, setCameraPosOverwrite] = useState([0, 0, 0])
   
   const colorInpRef = useRef()
   const widthInpRef = useRef()
@@ -73,12 +77,17 @@ function Scene() {
     heightInpRef.current.value = window.innerHeight-20
     setCameraSize()
 
+    // set default fov
+    setFov(20)
+
     // set default background color
-    colorInpRef.current.value = "#171717"
+    colorInpRef.current.value = "#9B6CD5"
     setBackgroundColor()
 
     // set alpha default
     setHasAlpha(false)
+
+    setCameraPosOverwrite([0,10,0])
 
     return () => {
       window.removeEventListener("resize", setCameraSize)
@@ -90,14 +99,19 @@ function Scene() {
     <div className="sceneContainer">
 
       <div className="viewBtnsContainer">
-        <button className="iconToggle" onClick={() => setGroundShadows(!groundShadows)}>ground shadows {String(groundShadows)}</button>
-        <button className="iconToggle" onClick={() => setObjectShadows(!objectShadows)}>object shadows {String(objectShadows)}</button>
-        <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)}>orbit {String(orbitEnabled)}</button>
-        <button className="iconToggle" onClick={() => setHasAlpha(!hasAlpha)}>alpha {String(hasAlpha)}</button>
-        <input type="color" onChange={setBackgroundColor} ref={colorInpRef}></input>
-        <input type="number" onChange={setCameraSize} ref={widthInpRef}></input>
-        <input type="number" onChange={setCameraSize} ref={heightInpRef}></input>
-        <input type="number" value={fov} onChange={(evt) => setFov(Math.max(2, evt.target.value))}></input>
+
+        <button className="iconToggle" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} style={{opacity:groundShadows?1:0.5}} /></button>
+        <button className="iconToggle" onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Object Shadows"><FaCubes color="white" size={17} style={{opacity:objectShadows?1:0.5}} /></button>
+        <div className="divider"></div>
+        <button className="iconToggle" onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} style={{opacity:!hasAlpha?1:0.5}} /></button>
+        <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input>
+        <div className="divider"></div>
+        <input type="number" onChange={setCameraSize} ref={widthInpRef} />
+        {/* <p className="resolutionX">x</p> */}
+        <input type="number" onChange={setCameraSize} ref={heightInpRef} />
+        <div className="divider"></div>
+        <input type="number" value={fov} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
+        <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Orbit"><FaCompass color="white" size={17} style={{opacity:orbitEnabled?1:0.5}} /></button>
       </div>
 
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
@@ -105,7 +119,7 @@ function Scene() {
       <div className="canvasContainer">
         <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
           <OrbitControls makeDefault enabled={orbitEnabled} />
-          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} />
+          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} position={cameraPosOverwrite} />
 
           <MockupScene
             groundShadows={groundShadows}

@@ -44,8 +44,97 @@ canvas {
     bottom: 20px;
     right: 20px;
     z-index: 1;
-    border-radius: 5px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 24px;
     font-size: 14px;
     line-height: 12px;
+}
+
+
+.iconToggle {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.iconToggle img {
+    width: 20px;
+    height: 20px;
+}
+
+
+input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-left: 10px;
+    padding: 0px;
+    outline: none;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+    outline: 1px solid rgba(255, 255, 255, 0.4)
+}
+::-webkit-color-swatch {
+    border-color: transparent;
+}
+::-moz-color-swatch {
+    border-color: transparent;
+}
+
+
+.divider {
+    width: 20px;
+}
+
+
+input[type="number"] {
+    width: 100px;
+    height: 40px;
+    margin: 0px;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 600;
+    -moz-appearance: textfield;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.resolutionX {
+    width: 10px;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 40px;
+    margin-left: 10px;
+    text-shadow: 0px 0px 1px black;
+}
+
+.fovInp {
+    width: 50px !important;
+}
+.fovInp::after {
+    content: "1";
 }
