@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/mockups/static/css/main.57a16ec5.chunk.css",
+    "main.js": "/mockups/static/js/main.9bc90c1d.chunk.js",
+    "main.js.map": "/mockups/static/js/main.9bc90c1d.chunk.js.map",
+    "runtime-main.js": "/mockups/static/js/runtime-main.9322eba7.js",
+    "runtime-main.js.map": "/mockups/static/js/runtime-main.9322eba7.js.map",
+    "static/js/2.1821c463.chunk.js": "/mockups/static/js/2.1821c463.chunk.js",
+    "static/js/2.1821c463.chunk.js.map": "/mockups/static/js/2.1821c463.chunk.js.map",
+    "static/js/3.ce85f82d.chunk.js": "/mockups/static/js/3.ce85f82d.chunk.js",
+    "static/js/3.ce85f82d.chunk.js.map": "/mockups/static/js/3.ce85f82d.chunk.js.map",
+    "index.html": "/mockups/index.html",
+    "static/css/main.57a16ec5.chunk.css.map": "/mockups/static/css/main.57a16ec5.chunk.css.map",
+    "static/js/2.1821c463.chunk.js.LICENSE.txt": "/mockups/static/js/2.1821c463.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/mockups/static/media/alpha.e2ed9fd3.jpg",
+    "static/media/Home Screen.67e27939.png": "/mockups/static/media/Home Screen.67e27939.png",
+    "static/media/phone.d08364ea.gltf": "/mockups/static/media/phone.d08364ea.gltf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9322eba7.js",
+    "static/js/2.1821c463.chunk.js",
+    "static/css/main.57a16ec5.chunk.css",
+    "static/js/main.9bc90c1d.chunk.js"
+  ]
+}
