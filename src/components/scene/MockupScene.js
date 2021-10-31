@@ -28,17 +28,16 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
 
   return (
     <scene>
-      <Suspense fallback={null}>
-        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="soft" >
+        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt" >
 
-          <mesh receiveShadow castShadow position={[0, 0, 0]} ref={meshRef}>
+          {/* <mesh receiveShadow castShadow position={[0, 0, 0]} ref={meshRef}>
             <boxGeometry args={[1, 1, 1]} />
             <meshStandardMaterial color={'orange'} roughness={1} metalness={0} />
-          </mesh>
+          </mesh> */}
 
-          {/* <Shoebox/> */}
+          <Shoebox/>
+
         </Stage>
-      </Suspense>
     </scene>
   );
 }

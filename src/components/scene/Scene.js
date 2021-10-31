@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, Suspense } from 'react'
 
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
@@ -6,8 +6,6 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { FaCamera, FaTint, FaCube, FaCubes, FaCompass } from 'react-icons/fa';
 
 import './Scene.css';
-import GroundShadowIcon from '../../assets/img/groundShadow.svg'
-import ObjectShadowIcon from '../../assets/img/objectShadow.svg'
 import MockupScene from './MockupScene';
 
 
@@ -81,7 +79,7 @@ function Scene() {
     setFov(20)
 
     // set default background color
-    colorInpRef.current.value = "#9B6CD5"
+    colorInpRef.current.value = "#000000"
     setBackgroundColor()
 
     // set alpha default
@@ -117,22 +115,24 @@ function Scene() {
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
       <div className="canvasContainer">
-        <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
-          <OrbitControls makeDefault enabled={orbitEnabled} />
-          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} position={cameraPosOverwrite} />
+        <Suspense fallback={null}>
+          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
+            <OrbitControls makeDefault enabled={orbitEnabled} />
+            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} position={cameraPosOverwrite} />
 
-          <MockupScene
-            groundShadows={groundShadows}
-            objectShadows={objectShadows}
-            doDownload={doDownload}
-            setDoDownload={setDoDownload}
-            width={widthInpRef.current ? widthInpRef.current.value : 0}
-            height={heightInpRef.current ? heightInpRef.current.value : 0}
-          />
+            <MockupScene
+              groundShadows={groundShadows}
+              objectShadows={objectShadows}
+              doDownload={doDownload}
+              setDoDownload={setDoDownload}
+              width={widthInpRef.current ? widthInpRef.current.value : 0}
+              height={heightInpRef.current ? heightInpRef.current.value : 0}
+            />
 
-          {!hasAlpha && <color attach="background" args={[color]} />}
+            {!hasAlpha && <color attach="background" args={[color]} />}
 
-        </Canvas>
+          </Canvas>
+        </Suspense>
       </div>
 
     </div>
