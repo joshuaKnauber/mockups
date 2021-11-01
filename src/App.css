@@ -78,3 +78,8 @@ button {
 [bottom-tooltip]:not([data-tooltip-persistent]):before {
     pointer-events: none;
 }
+
+
+.pointing {
+    cursor: pointer;
+}

@@ -79,7 +79,7 @@ function Scene() {
     setFov(20)
 
     // set default background color
-    colorInpRef.current.value = "#000000"
+    colorInpRef.current.value = "#F5DDC7"
     setBackgroundColor()
 
     // set alpha default
