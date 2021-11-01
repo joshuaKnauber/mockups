@@ -1,9 +1,9 @@
-import React, { Suspense, useRef, useEffect, useState } from 'react'
+import React from 'react'
 
-import { useFrame, extend, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { Stage } from '@react-three/drei'
 
-import Model from '../models/Model'
+import Phone from '../models/Phone'
 
 
 function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
@@ -27,7 +27,7 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     <scene>
         <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt" >
 
-          <Model />
+          <Phone />
 
         </Stage>
     </scene>
