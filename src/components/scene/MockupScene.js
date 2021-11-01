@@ -8,8 +8,6 @@ import Shoebox from '../models/Shoebox'
 
 function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
 
-  const meshRef = useRef()
-
   const downloadImage = (state) => {
     if (!doDownload) return
     
@@ -23,17 +21,11 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     setDoDownload(false)
   }
 
-
   useFrame((state) => downloadImage(state))
 
   return (
     <scene>
         <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt" >
-
-          {/* <mesh receiveShadow castShadow position={[0, 0, 0]} ref={meshRef}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={'orange'} roughness={1} metalness={0} />
-          </mesh> */}
 
           <Shoebox/>
 

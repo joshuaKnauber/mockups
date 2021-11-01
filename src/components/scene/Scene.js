@@ -105,10 +105,9 @@ function Scene() {
         <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input>
         <div className="divider"></div>
         <input type="number" onChange={setCameraSize} ref={widthInpRef} />
-        {/* <p className="resolutionX">x</p> */}
         <input type="number" onChange={setCameraSize} ref={heightInpRef} />
         <div className="divider"></div>
-        <input type="number" value={fov} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
+        <input type="range" value={fov} min="10" max="60" step={1} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
         <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Orbit"><FaCompass color="white" size={17} style={{opacity:orbitEnabled?1:0.5}} /></button>
       </div>
 
@@ -118,7 +117,7 @@ function Scene() {
         <Suspense fallback={null}>
           <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
             <OrbitControls makeDefault enabled={orbitEnabled} />
-            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.001} far={50} position={cameraPosOverwrite} />
+            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} position={cameraPosOverwrite} />
 
             <MockupScene
               groundShadows={groundShadows}

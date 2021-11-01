@@ -1,8 +1,32 @@
 .materialPopup {
+    width: 150px;
     background-color: white;
     color: black;
     padding: 20px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    z-index: 2;
+}
+
+
+.materialPopup p {
+    font-size: 11px;
+    font-weight: 600;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.materialPopup p:first-of-type {
+    margin-top: 0px;
+}
+
+
+.popupConfirm {
+    width: 100%;
+    height: 35px;
+    background-color: rgba(74, 228, 120, 0.2);
+    border-radius: 30px;
+    margin-top: 20px;
 }
