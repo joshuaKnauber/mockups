@@ -115,7 +115,7 @@ function Scene() {
 
       <div className="canvasContainer">
         <Suspense fallback={null}>
-          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }}>
+          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }} >
             <OrbitControls makeDefault enabled={orbitEnabled} />
             <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} position={cameraPosOverwrite} />
 
