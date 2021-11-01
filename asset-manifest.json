@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/mockups/static/css/main.246fba3b.chunk.css",
-    "main.js": "/mockups/static/js/main.5cbf540d.chunk.js",
-    "main.js.map": "/mockups/static/js/main.5cbf540d.chunk.js.map",
-    "runtime-main.js": "/mockups/static/js/runtime-main.126ea046.js",
-    "runtime-main.js.map": "/mockups/static/js/runtime-main.126ea046.js.map",
-    "static/js/2.916a1757.chunk.js": "/mockups/static/js/2.916a1757.chunk.js",
-    "static/js/2.916a1757.chunk.js.map": "/mockups/static/js/2.916a1757.chunk.js.map",
-    "static/js/3.39766eae.chunk.js": "/mockups/static/js/3.39766eae.chunk.js",
-    "static/js/3.39766eae.chunk.js.map": "/mockups/static/js/3.39766eae.chunk.js.map",
-    "index.html": "/mockups/index.html",
-    "static/css/main.246fba3b.chunk.css.map": "/mockups/static/css/main.246fba3b.chunk.css.map",
-    "static/js/2.916a1757.chunk.js.LICENSE.txt": "/mockups/static/js/2.916a1757.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/mockups/static/media/alpha.e2ed9fd3.jpg",
-    "static/media/Home Screen.67e27939.png": "/mockups/static/media/Home Screen.67e27939.png",
-    "static/media/phone.d08364ea.gltf": "/mockups/static/media/phone.d08364ea.gltf"
+    "main.css": "/static/css/main.a3341a7d.chunk.css",
+    "main.js": "/static/js/main.5cbf540d.chunk.js",
+    "main.js.map": "/static/js/main.5cbf540d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.af4d757d.js",
+    "runtime-main.js.map": "/static/js/runtime-main.af4d757d.js.map",
+    "static/js/2.916a1757.chunk.js": "/static/js/2.916a1757.chunk.js",
+    "static/js/2.916a1757.chunk.js.map": "/static/js/2.916a1757.chunk.js.map",
+    "static/js/3.39766eae.chunk.js": "/static/js/3.39766eae.chunk.js",
+    "static/js/3.39766eae.chunk.js.map": "/static/js/3.39766eae.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.a3341a7d.chunk.css.map": "/static/css/main.a3341a7d.chunk.css.map",
+    "static/js/2.916a1757.chunk.js.LICENSE.txt": "/static/js/2.916a1757.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/alpha.e2ed9fd3.jpg",
+    "static/media/Home Screen.67e27939.png": "/static/media/Home Screen.67e27939.png",
+    "static/media/phone.d08364ea.gltf": "/static/media/phone.d08364ea.gltf"
   },
   "entrypoints": [
-    "static/js/runtime-main.126ea046.js",
+    "static/js/runtime-main.af4d757d.js",
     "static/js/2.916a1757.chunk.js",
-    "static/css/main.246fba3b.chunk.css",
+    "static/css/main.a3341a7d.chunk.css",
     "static/js/main.5cbf540d.chunk.js"
   ]
 }
