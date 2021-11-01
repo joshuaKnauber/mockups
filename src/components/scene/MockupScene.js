@@ -3,7 +3,7 @@ import React, { Suspense, useRef, useEffect, useState } from 'react'
 import { useFrame, extend, useThree } from '@react-three/fiber'
 import { Stage } from '@react-three/drei'
 
-import Shoebox from '../models/Shoebox'
+import Model from '../models/Model'
 
 
 function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
@@ -27,7 +27,7 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     <scene>
         <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt" >
 
-          <Shoebox/>
+          <Model />
 
         </Stage>
     </scene>

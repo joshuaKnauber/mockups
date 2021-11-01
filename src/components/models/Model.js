@@ -6,7 +6,7 @@ import { FaCheck } from 'react-icons/fa';
 
 import "./Popup.css";
 
-import Model from './phone.gltf';
+import ModelGltf from './phone.gltf';
 import Tex from './Home Screen.png';
 
 
@@ -123,10 +123,10 @@ function MockupMesh ({ color, metalness, roughness, img, node, selected, setSele
 }
 
 
-export default function Shoebox(props) {
+export default function Model(props) {
 
   const group = useRef()
-  const { nodes, materials } = useGLTF(Model)
+  const { nodes, materials } = useGLTF(ModelGltf)
 
   const [selectedUid, setSelectedUid] = useState(null)
 
