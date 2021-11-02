@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
 import { useFrame } from '@react-three/fiber'
-import { OrbitControls, TransformControls } from '@react-three/drei'
+import { OrbitControls, TransformControls, ContactShadows, softShadows } from '@react-three/drei'
+
+import Environment from './Environment'
+import Lighting from './Lighting'
 
 import Phone from '../models/Phone'
 
@@ -42,10 +45,23 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
     }
   }, [tool])
 
+  const preset = "pisa"
+
   return (
     <scene>
+      <group>
+        <Phone tool={tool} setActive={setActiveModel} />
+      </group>
 
-      <Phone tool={tool} setActive={setActiveModel} />
+      <Environment preset={preset} />
+      <Lighting />
+
+      {/* <ContactShadows opacity={1} width={1} height={1} blur={1} far={10} resolution={256} /> */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+        <planeBufferGeometry attach="geometry" args={[10, 10]} />
+        {/* <meshStandardMaterial attach="material" color="red" /> */}
+        <shadowMaterial attach="material" transparent opacity={0.4} />
+      </mesh>
 
       {activeModel && <TransformControls object={activeModel} mode={transformMode}  />}
       <OrbitControls makeDefault enabled={orbitEnabled} />

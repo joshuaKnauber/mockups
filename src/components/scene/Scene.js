@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera, softShadows } from '@react-three/drei'
 
 import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
 
@@ -151,7 +151,7 @@ function Scene() {
 
       <div className="canvasContainer">
         <Suspense fallback={null}>
-          <Canvas pixelRatio={window.devicePixelRatio} colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
+          <Canvas pixelRatio={window.devicePixelRatio} colorManagement shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
             <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} />
 
