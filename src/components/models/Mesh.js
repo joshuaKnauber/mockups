@@ -9,7 +9,7 @@ import { hexToRgb, rgbToHex } from './BaseModel';
 import "./Popup.css";
 
 
-export default function MockupMesh ({ color="white", metalness=0, roughness=0.2, img=null, geometry=null, selected, setSelected }) {
+export default function MockupMesh ({ color="white", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true, selected, setSelected }) {
 
   const matRef = useRef()
   const imgInpRef = useRef()
@@ -55,13 +55,18 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
 
   useEffect(() => {
     if (imgUrl) {
-      const textureLoader = new TextureLoader()
-      textureLoader.load(imgUrl, (tex) => {
-        tex.flipY = false
-        tex.encoding = THREE.sRGBEncoding
-        matRef.current.map = tex
-        matRef.current.needsUpdate = true
-      })
+      if (typeof(imgUrl) === typeof("")) {
+          const textureLoader = new TextureLoader()
+          textureLoader.load(imgUrl, (tex) => {
+            tex.flipY = false
+            tex.encoding = THREE.sRGBEncoding
+            matRef.current.map = tex
+            matRef.current.needsUpdate = true
+          })
+      }
+      else {
+        matRef.current.map = imgUrl
+      }
     }
   }, [imgUrl])
 
@@ -69,9 +74,18 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
     <>
     <group>
       <mesh
-        onPointerOver={()=>setHovering(true)}
-        onPointerOut={()=>setHovering(false)}
-        onClick={()=>setSelected(geometry.uuid)}
+        onPointerOver={(evt)=>{
+          selectable && setHovering(true)
+          evt.stopPropagation()
+        }}
+        onPointerOut={(evt)=>{
+          selectable && setHovering(false)
+          evt.stopPropagation()
+        }}
+        onClick={(evt)=>{
+          selectable && setSelected(geometry.uuid)
+          evt.stopPropagation()
+        }}
         castShadow
         receiveShadow
         geometry={geometry}
@@ -79,6 +93,7 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
         <meshStandardMaterial
           ref={matRef}
           color={color}
+          side={THREE.DoubleSide}
           metalness={metalness}
           roughness={roughness}
           emissive={hovering ? "orange" : "white"}
