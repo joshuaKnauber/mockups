@@ -14,9 +14,13 @@ export const hexToRgb = (hex) => {
   return `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`
 }
 
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
 
 export function rgbToHex(r, g, b) {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 
@@ -30,6 +34,7 @@ export default function BaseModel(props) {
         if (meshData.props.geometry === undefined) return
 
         const mat = meshData.props.material
+        console.log(mat.color, rgbToHex(Math.round(mat.color.r*255), Math.round(mat.color.g*255), Math.round(mat.color.b*255)))
         return <MockupMesh
                   key={meshData.props.geometry.uuid}
                   geometry={meshData.props.geometry}

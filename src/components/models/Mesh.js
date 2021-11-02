@@ -65,6 +65,7 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
           })
       }
       else {
+        imgUrl.anisotropy = 32
         matRef.current.map = imgUrl
       }
     }
