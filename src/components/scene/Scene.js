@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 
-import { FaCamera, FaTint, FaCube, FaCubes, FaCompass } from 'react-icons/fa';
+import { FaCamera, FaTint, FaCube, FaCubes, FaCompass, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
 
 import './Scene.css';
 import MockupScene from './MockupScene';
@@ -93,20 +93,31 @@ function Scene() {
   return (
     <div className="sceneContainer">
 
-      <div className="viewBtnsContainer">
+      <div className="toolBtnsContainer">
+        <button className="iconToggle tool active" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Materials"><FaHandPaper color="white" size={17} /></button>
+        <div className="dividerSmall"></div>
+        <button className="iconToggle tool" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Materials"><FaFillDrip color="white" size={17} /></button>
+        <div className="dividerSmall"></div>
+        <button className="iconToggle tool" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Move"><FaArrowsAlt color="white" size={17} /></button>
+        <button className="iconToggle tool" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Rotate"><FaSyncAlt color="white" size={17} /></button>
+        <button className="iconToggle tool" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Scale"><FaCompress color="white" size={17} /></button>
+      </div>
 
-        <button className="iconToggle" onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} style={{opacity:groundShadows?1:0.5}} /></button>
-        <button className="iconToggle" onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Object Shadows"><FaCubes color="white" size={17} style={{opacity:objectShadows?1:0.5}} /></button>
+      <div className="viewBtnsContainer">
+        <button className={`iconToggle ${groundShadows&&"active"}`} onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} /></button>
+        <button className={`iconToggle ${objectShadows&&"active"}`} onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Object Shadows"><FaCubes color="white" size={17} /></button>
         <div className="divider"></div>
-        <button className="iconToggle" onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} style={{opacity:!hasAlpha?1:0.5}} /></button>
+        <button className={`iconToggle ${!hasAlpha&&"active"}`} onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} /></button>
         <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input>
         <div className="divider"></div>
         <input type="number" onChange={setCameraSize} ref={widthInpRef} />
         <input type="number" onChange={setCameraSize} ref={heightInpRef} />
         <div className="divider"></div>
         <input type="range" value={fov} min="10" max="60" step={1} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
-        <button className="iconToggle" onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Orbit"><FaCompass color="white" size={17} style={{opacity:orbitEnabled?1:0.5}} /></button>
+        <button className={`iconToggle ${orbitEnabled&&"active"}`} onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Orbit"><FaCompass color="white" size={17} /></button>
       </div>
+
+      <button className="addBtn" onClick={() => {}}><FaPlus size={16} color="white"/></button>
 
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
