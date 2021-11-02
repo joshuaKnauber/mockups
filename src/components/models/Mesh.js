@@ -98,14 +98,18 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
         }}
 
         onClick={(evt)=>{
-          setTimeout(() => {
-            selectable && setSelected(geometry.uuid)
-          }, 20);
-          evt.stopPropagation()
+          if (selectable) {
+            setTimeout(() => {
+              selectable && setSelected(geometry.uuid)
+            }, 20);
+            evt.stopPropagation()
+          }
         }}
         onPointerMissed={(evt)=>{
-          setSelected(null)
-          evt.stopPropagation()
+          if (selectable) {
+            setSelected(null)
+            evt.stopPropagation()
+          }
         }}
 
         castShadow

@@ -33,7 +33,7 @@ function Scene() {
 
   // TOOLS
   const tools = ["grab", "materials", "translate", "rotate", "scale"]
-  const [toolIndex, setToolIndex] = useState(0)
+  const [toolIndex, setToolIndex] = useState(1)
 
   const shorcutPressed = (evt) => {
     const codes = {
@@ -151,7 +151,7 @@ function Scene() {
 
       <div className="canvasContainer">
         <Suspense fallback={null}>
-          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }} >
+          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
             <OrbitControls makeDefault enabled={orbitEnabled} />
 
             <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} />
