@@ -63,7 +63,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
         <shadowMaterial attach="material" transparent opacity={0.4} />
       </mesh>
 
-      {activeModel && <TransformControls object={activeModel} mode={transformMode}  />}
+      {activeModel && <TransformControls object={activeModel} mode={transformMode}  />} {/* TODO: This still seems to be exist when disabled by switching to other tool */} 
       <OrbitControls makeDefault enabled={orbitEnabled} />
 
       {["translate", "rotate", "scale"].includes(tool) && <gridHelper args={[2, 20, "white", "#585858"]}/>}
