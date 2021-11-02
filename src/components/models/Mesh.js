@@ -8,12 +8,12 @@ import { hexToRgb, rgbToHex } from './BaseModel';
 import "./Popup.css";
 
 
-export default function MockupMesh ({ color="white", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true,selected, setSelected }) {
+export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true,selected, setSelected }) {
 
   const matRef = useRef()
   const imgInpRef = useRef()
   const colorInpRef = useRef()
-  const [borderColor, setBorderColor] = useState(color)
+  const [borderColor, setBorderColor] = useState("white")
   const metalnessInpRef = useRef()
   const roughnessInpRef = useRef()
 
@@ -45,8 +45,10 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
 
   useEffect(() => {
     if (selected === geometry.uuid) {
-      let { r, g, b } = matRef.current.color
-      colorInpRef.current.value = rgbToHex(Math.round(r*255), Math.round(g*255), Math.round(b*255))
+      const {r,g,b} = matRef.current.color
+      let color = rgbToHex(Math.floor(r*255),Math.floor(g*255),Math.floor(b*255))
+      colorInpRef.current.value = color
+      setBorderColor(color)
       metalnessInpRef.current.checked = Boolean(matRef.current.metalness)
       roughnessInpRef.current.value = matRef.current.roughness
     }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import * as THREE from "three";
 
 import MockupMesh from './Mesh';
 
@@ -37,7 +38,7 @@ export default function BaseModel(props) {
         return <MockupMesh
                   key={meshData.props.geometry.uuid}
                   geometry={meshData.props.geometry}
-                  color={rgbToHex(Math.round(mat.color.r*255), Math.round(mat.color.g*255), Math.round(mat.color.b*255))}
+                  color={mat.map ? new THREE.Color("rgb(127,127,127)") : mat.color}
                   metalness={mat.metalness}
                   roughness={mat.roughness}
                   img={mat.map}

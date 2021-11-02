@@ -108,12 +108,12 @@ function Scene() {
         <button className={`iconToggle ${objectShadows&&"active"}`} onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Object Shadows"><FaCubes color="white" size={17} /></button>
         <div className="divider"></div>
         <button className={`iconToggle ${!hasAlpha&&"active"}`} onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} /></button>
-        <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input>
+        <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input> 
         <div className="divider"></div>
         <input type="number" onChange={setCameraSize} ref={widthInpRef} />
         <input type="number" onChange={setCameraSize} ref={heightInpRef} />
         <div className="divider"></div>
-        <input type="range" value={fov} min="10" max="60" step={1} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
+        <input type="range" value={fov} min="10" max="50" step={2} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
         <button className={`iconToggle ${orbitEnabled&&"active"}`} onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Orbit"><FaCompass color="white" size={17} /></button>
       </div>
 

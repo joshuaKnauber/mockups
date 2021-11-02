@@ -49,9 +49,9 @@
             "name" : "Buttons.editable",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.36289897561073303,
-                    0.36289897561073303,
-                    0.36289897561073303,
+                    0.10153963416814804,
+                    0.10153963416814804,
+                    0.10153963416814804,
                     0.36000001430511475
                 ],
                 "roughnessFactor" : 0.661395788192749
@@ -66,7 +66,7 @@
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.07185298204421997
+                "roughnessFactor" : 0
             }
         },
         {
@@ -119,9 +119,9 @@
             "name" : "Body.editable",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.4985716640949249,
-                    0.4985716640949249,
-                    0.4985716640949249,
+                    0.15096957981586456,
+                    0.15096957981586456,
+                    0.15096957981586456,
                     1
                 ],
                 "roughnessFactor" : 0.17048700153827667
