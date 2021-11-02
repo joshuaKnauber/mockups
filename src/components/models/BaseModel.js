@@ -34,7 +34,6 @@ export default function BaseModel(props) {
         if (meshData.props.geometry === undefined) return
 
         const mat = meshData.props.material
-        console.log(mat.color, rgbToHex(Math.round(mat.color.r*255), Math.round(mat.color.g*255), Math.round(mat.color.b*255)))
         return <MockupMesh
                   key={meshData.props.geometry.uuid}
                   geometry={meshData.props.geometry}

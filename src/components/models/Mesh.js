@@ -2,18 +2,18 @@ import React, { useRef, useState, useEffect } from 'react'
 import { TextureLoader } from 'three'
 import { Html } from '@react-three/drei'
 import * as THREE from "three";
-import { FaCheck } from 'react-icons/fa';
 
 import { hexToRgb, rgbToHex } from './BaseModel';
 
 import "./Popup.css";
 
 
-export default function MockupMesh ({ color="white", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true, selected, setSelected }) {
+export default function MockupMesh ({ color="white", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true,selected, setSelected }) {
 
   const matRef = useRef()
   const imgInpRef = useRef()
   const colorInpRef = useRef()
+  const [borderColor, setBorderColor] = useState(color)
   const metalnessInpRef = useRef()
   const roughnessInpRef = useRef()
 
@@ -21,7 +21,7 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
   const [hovering, setHovering] = useState(false)
 
 
-  const setMeshColor = () => { matRef.current.color.set( hexToRgb(colorInpRef.current.value) ) }
+  const setMeshColor = () => { matRef.current.color.set( hexToRgb(colorInpRef.current.value) ); setBorderColor(colorInpRef.current.value) }
   const setMeshMetalness = () => { matRef.current.metalness = metalnessInpRef.current.checked ? 1 : 0 }
   const setMeshRoughness = () => { matRef.current.roughness = roughnessInpRef.current.value }
 
@@ -76,17 +76,29 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
     <group>
       <mesh
         onPointerOver={(evt)=>{
-          selectable && setHovering(true)
-          evt.stopPropagation()
+          if (selectable) {
+            setHovering(true)
+            evt.stopPropagation()
+          }
         }}
-        onPointerOut={(evt)=>{
-          selectable && setHovering(false)
-          evt.stopPropagation()
+        onPointerLeave={(evt)=>{
+          if (hovering) {
+            setHovering(false)
+            // evt.stopPropagation()
+          }
         }}
+
         onClick={(evt)=>{
-          selectable && setSelected(geometry.uuid)
+          setTimeout(() => {
+            selectable && setSelected(geometry.uuid)
+          }, 20);
           evt.stopPropagation()
         }}
+        onPointerMissed={(evt)=>{
+          setSelected(null)
+          evt.stopPropagation()
+        }}
+
         castShadow
         receiveShadow
         geometry={geometry}
@@ -105,7 +117,7 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
       {selected === geometry.uuid && <Html position={geometry.boundingBox.max}>
         <div className="materialPopup">
           <p>Color</p>
-          <input type="color" ref={colorInpRef} onChange={setMeshColor} />
+          <input type="color" ref={colorInpRef} onChange={setMeshColor} style={{backgroundColor:borderColor}} />
           {img && <>
             <p>Image</p>
             <input type="file" ref={imgInpRef} onChange={updateImageUrl} />
@@ -114,7 +126,6 @@ export default function MockupMesh ({ color="white", metalness=0, roughness=0.2,
           <input type="checkbox" ref={metalnessInpRef} onChange={setMeshMetalness} />
           <p>Roughness</p>
           <input type="range" ref={roughnessInpRef} min="0" max="1" step={0.01} onChange={setMeshRoughness} />
-          <button className="popupConfirm" onClick={()=>setSelected(null)}><FaCheck size={16} color="limegreen"/></button>
         </div>
       </Html>}
 

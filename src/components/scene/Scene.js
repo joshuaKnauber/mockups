@@ -14,7 +14,7 @@ function Scene() {
   const [doDownload, setDoDownload] = useState(false)
 
   // VIEW SETTINGS
-  const [groundShadows, setGroundShadows] = useState(true)
+  const [groundShadows, setGroundShadows] = useState(false)
   const [objectShadows, setObjectShadows] = useState(true)
 
   const [fov, setFov] = useState(0)
@@ -23,8 +23,6 @@ function Scene() {
 
   const [hasAlpha, setHasAlpha] = useState(false)
   const [color, setColor] = useState("")
-
-  const [cameraPosOverwrite, setCameraPosOverwrite] = useState([0, 0, 0])
   
   const colorInpRef = useRef()
   const widthInpRef = useRef()
@@ -73,19 +71,18 @@ function Scene() {
     // set default camera size
     widthInpRef.current.value = window.innerWidth-20
     heightInpRef.current.value = window.innerHeight-20
-    setCameraSize()
-
+    
     // set default fov
     setFov(20)
-
+    
     // set default background color
-    colorInpRef.current.value = "#F5DDC7"
+    colorInpRef.current.value = "#8A4CE6"
     setBackgroundColor()
-
+    
     // set alpha default
-    setHasAlpha(false)
+    setHasAlpha(true)
 
-    setCameraPosOverwrite([0,10,0])
+    setCameraSize()
 
     return () => {
       window.removeEventListener("resize", setCameraSize)
@@ -117,7 +114,8 @@ function Scene() {
         <Suspense fallback={null}>
           <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true }} >
             <OrbitControls makeDefault enabled={orbitEnabled} />
-            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} position={cameraPosOverwrite} />
+
+            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} />
 
             <MockupScene
               groundShadows={groundShadows}

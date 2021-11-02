@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { Stage } from '@react-three/drei'
 
 import Phone from '../models/Phone'
 
 
 function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
+
+  const [isCamSet, setIsCamSet] = useState(false)
 
   const downloadImage = (state) => {
     if (!doDownload) return
@@ -23,9 +25,15 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
 
   useFrame((state) => downloadImage(state))
 
+  useFrame(({camera}) => {
+    if (isCamSet) return
+    camera.position.set(-0.25, 0.25, 0.7)
+    setIsCamSet(true)
+  })
+
   return (
     <scene>
-        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="sunset" preset="rembrandt" >
+        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="city" preset="soft" >
 
           <Phone />
 
