@@ -6,7 +6,7 @@ import { Stage } from '@react-three/drei'
 import Phone from '../models/Phone'
 
 
-function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height }) {
+function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height, tool }) {
 
   const [isCamSet, setIsCamSet] = useState(false)
 
@@ -35,7 +35,7 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     <scene>
         <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="city" preset="soft" >
 
-          <Phone />
+          <Phone tool={tool} />
 
         </Stage>
     </scene>

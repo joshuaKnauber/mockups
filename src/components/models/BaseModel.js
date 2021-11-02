@@ -26,6 +26,7 @@ export function rgbToHex(r, g, b) {
 
 
 export default function BaseModel(props) {
+  const { tool } = props
     
   const [selectedUid, setSelectedUid] = useState(null)
 
@@ -42,7 +43,7 @@ export default function BaseModel(props) {
                   metalness={mat.metalness}
                   roughness={mat.roughness}
                   img={mat.map}
-                  selectable={mat.name.includes(".editable")}
+                  selectable={mat.name.includes(".editable") && tool==="materials"}
                   selected={selectedUid}
                   setSelected={setSelectedUid}
                 />
