@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 
-import { useFrame, useThree } from '@react-three/fiber'
-import { Stage } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import { OrbitControls, TransformControls } from '@react-three/drei'
 
 import Phone from '../models/Phone'
 
 
-function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, width, height, tool }) {
+function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, setDoDownload, width, height, tool }) {
+
+  const [activeModel, setActiveModel] = useState(null)
+  const [transformMode, setTransformMode] = useState("translate")
 
   const [isCamSet, setIsCamSet] = useState(false)
 
@@ -31,13 +34,23 @@ function MockupScene({ groundShadows, objectShadows, doDownload, setDoDownload, 
     setIsCamSet(true)
   })
 
+  useEffect(() => {
+    if (!["translate", "rotate", "scale"].includes(tool)) {
+      setActiveModel(null)
+    } else {
+      setTransformMode(tool)
+    }
+  }, [tool])
+
   return (
     <scene>
-        <Stage contactShadow={groundShadows} shadows={objectShadows} adjustCamera intensity={1} environment="city" preset="soft" >
 
-          <Phone tool={tool} />
+      <Phone tool={tool} setActive={setActiveModel} />
 
-        </Stage>
+      {activeModel && <TransformControls object={activeModel} mode={transformMode}  />}
+      <OrbitControls makeDefault enabled={orbitEnabled} />
+
+      {["translate", "rotate", "scale"].includes(tool) && <gridHelper args={[2, 20, "white", "#585858"]}/>}
     </scene>
   );
 }

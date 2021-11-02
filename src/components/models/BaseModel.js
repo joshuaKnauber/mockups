@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import * as THREE from "three";
 
 import MockupMesh from './Mesh';
@@ -26,12 +26,39 @@ export function rgbToHex(r, g, b) {
 
 
 export default function BaseModel(props) {
-  const { tool } = props
-    
+  const { tool, setActive } = props
+
+  const groupRef = useRef()
+
+  const setCursor = () => {
+    if (["translate", "rotate", "scale"].includes(tool)) {
+      document.body.classList.add("pointing")
+    }
+  }
+  const resetCursor = () => {
+    if (["translate", "rotate", "scale"].includes(tool)) {
+      document.body.classList.remove("pointing")
+    }
+  }
+
+  const selectModel = () => {
+    setTimeout(() => {
+      setActive(groupRef)
+    }, 10);
+  }
+  const deselectModel = () => {
+    setActive(null)
+  }
+
   const [selectedUid, setSelectedUid] = useState(null)
 
   return (
-    <group {...props} dispose={null} >
+    <group {...props} dispose={null} ref={groupRef}
+      onPointerOver={()=>setCursor()}
+      onPointerLeave={()=>resetCursor()}
+      onClick={()=>selectModel()}
+      onPointerMissed={()=>deselectModel()}
+    >
       {props.children.map(meshData => {
         if (meshData.props.geometry === undefined) return
 

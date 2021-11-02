@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera } from '@react-three/drei'
 
 import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
 
@@ -126,9 +126,9 @@ function Scene() {
         <div className="dividerSmall"></div>
         <button className={`iconToggle tool ${toolIndex===1&&"active"}`} onClick={() => setToolIndex(1)} bottom-tooltip="Materials (M,F)"><FaFillDrip color="white" size={17} /></button>
         <div className="dividerSmall"></div>
-        {/* <button className={`iconToggle tool ${toolIndex===2&&"active"}`} onClick={() => setToolIndex(2)} bottom-tooltip="Move (Q,G)"><FaArrowsAlt color="white" size={17} /></button>
+        <button className={`iconToggle tool ${toolIndex===2&&"active"}`} onClick={() => setToolIndex(2)} bottom-tooltip="Move (Q,G)"><FaArrowsAlt color="white" size={17} /></button>
         <button className={`iconToggle tool ${toolIndex===3&&"active"}`} onClick={() => setToolIndex(3)} bottom-tooltip="Rotate (W,R)"><FaSyncAlt color="white" size={17} /></button>
-        <button className={`iconToggle tool ${toolIndex===4&&"active"}`} onClick={() => setToolIndex(4)} bottom-tooltip="Scale (E,S)"><FaCompress color="white" size={17} /></button> */}
+        <button className={`iconToggle tool ${toolIndex===4&&"active"}`} onClick={() => setToolIndex(4)} bottom-tooltip="Scale (E,S)"><FaCompress color="white" size={17} /></button>
       </div>
 
       <div className="viewBtnsContainer">
@@ -151,14 +151,14 @@ function Scene() {
 
       <div className="canvasContainer">
         <Suspense fallback={null}>
-          <Canvas colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
-            <OrbitControls makeDefault enabled={orbitEnabled} />
+          <Canvas pixelRatio={window.devicePixelRatio} colorManagement shadowMap shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
             <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} />
 
             <MockupScene
               groundShadows={groundShadows}
               objectShadows={objectShadows}
+              orbitEnabled={orbitEnabled}
               doDownload={doDownload}
               setDoDownload={setDoDownload}
               width={widthInpRef.current ? widthInpRef.current.value : 0}
