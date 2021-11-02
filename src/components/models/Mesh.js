@@ -56,6 +56,13 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
 
 
   useEffect(() => {
+    if (selected === geometry.uuid && !selectable) {
+      setSelected(null)
+    }
+  }, [selectable])
+
+
+  useEffect(() => {
     if (imgUrl) {
       if (typeof(imgUrl) === typeof("")) {
           const textureLoader = new TextureLoader()
