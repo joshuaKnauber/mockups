@@ -1,6 +1,6 @@
 # Mockup Generator
 
-This project was just created as an exercise for Three.js, but if you want to contribute something please let me know. You can find it at [mockups.joshuaknauber.com](mockups.joshuaknauber.com)
+This project was just created as an exercise for Three.js, but if you want to contribute something please let me know. You can find it at [mockups.joshuaknauber.com](https://mockups.joshuaknauber.com/)
 
 ## Adding Models
 
