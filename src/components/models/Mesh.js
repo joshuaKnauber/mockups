@@ -8,7 +8,7 @@ import { hexToRgb, rgbToHex } from './BaseModel';
 import "./Popup.css";
 
 
-export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true,selected, setSelected }) {
+export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true, selected, setSelected }) {
 
   const matRef = useRef()
   const imgInpRef = useRef()
@@ -82,7 +82,7 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
 
   return (
     <>
-    <group>
+    <group castShadow receiveShadow>
       <mesh
         onPointerOver={(evt)=>{
           if (selectable) {

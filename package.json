@@ -6,6 +6,7 @@
   "dependencies": {
     "@react-three/drei": "^7.19.2",
     "@react-three/fiber": "^7.0.17",
+    "@react-three/postprocessing": "^2.0.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

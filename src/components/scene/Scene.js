@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera, softShadows } from '@react-three/drei'
+import { PerspectiveCamera, OrbitControls, softShadows } from '@react-three/drei'
+import * as THREE from "three";
 
 import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
 
@@ -150,26 +151,24 @@ function Scene() {
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
       <div className="canvasContainer">
-        <Suspense fallback={null}>
-          <Canvas pixelRatio={window.devicePixelRatio} colorManagement shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
+        <Canvas pixelRatio={window.devicePixelRatio} shadows colorManagement ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
-            <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} near={0.0001} far={50} />
+          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} />
 
-            <MockupScene
-              groundShadows={groundShadows}
-              objectShadows={objectShadows}
-              orbitEnabled={orbitEnabled}
-              doDownload={doDownload}
-              setDoDownload={setDoDownload}
-              width={widthInpRef.current ? widthInpRef.current.value : 0}
-              height={heightInpRef.current ? heightInpRef.current.value : 0}
-              tool={tools[toolIndex]}
-            />
+          <MockupScene
+            groundShadows={groundShadows}
+            objectShadows={objectShadows}
+            orbitEnabled={orbitEnabled}
+            doDownload={doDownload}
+            setDoDownload={setDoDownload}
+            width={widthInpRef.current ? widthInpRef.current.value : 0}
+            height={heightInpRef.current ? heightInpRef.current.value : 0}
+            tool={tools[toolIndex]}
+          />
 
-            {!hasAlpha && <color attach="background" args={[color]} />}
+          {!hasAlpha && <color attach="background" args={[color]} />}
 
-          </Canvas>
-        </Suspense>
+        </Canvas>
       </div>
 
     </div>

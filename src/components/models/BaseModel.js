@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, Suspense } from 'react'
 import * as THREE from "three";
+import { TransformControls, Sphere } from '@react-three/drei'
 
 import MockupMesh from './Mesh';
 
@@ -26,9 +27,21 @@ export function rgbToHex(r, g, b) {
 
 
 export default function BaseModel(props) {
-  const { tool, setActive } = props
+  const { tool, orbit, activeModel, setActiveModel } = props
 
   const groupRef = useRef()
+
+  const transform = useRef()
+
+  const [transformMode, setTransformMode] = useState("translate")
+
+  useEffect(() => {
+    if (!["translate", "rotate", "scale"].includes(tool)) {
+      // setActiveModel(null)
+    } else {
+      setTransformMode(tool)
+    }
+  }, [tool])
 
   const setCursor = () => {
     if (["translate", "rotate", "scale"].includes(tool)) {
@@ -41,40 +54,56 @@ export default function BaseModel(props) {
     }
   }
 
-  const selectModel = () => {
-    setTimeout(() => {
-      setActive(groupRef)
-    }, 10);
+  const selectModel = (evt) => {
+    if (["translate", "rotate", "scale"].includes(tool)) {
+      setActiveModel(groupRef.current)
+    }
+    evt.stopPropagation()
   }
-  const deselectModel = () => {
-    setActive(null)
-  }
+
 
   const [selectedUid, setSelectedUid] = useState(null)
 
-  return (
-    <group {...props} dispose={null} ref={groupRef}
-      onPointerOver={()=>setCursor()}
-      onPointerLeave={()=>resetCursor()}
-      onClick={()=>selectModel()}
-      onPointerMissed={()=>deselectModel()}
-    >
-      {props.children.map(meshData => {
-        if (meshData.props.geometry === undefined) return
+  useEffect(() => {
+    if (transform.current && orbit.current) {
+      const controls = transform.current
+      controls.setMode(transformMode)
+      const callback = event => (orbit.current.enabled = !event.value)
+      controls.addEventListener("dragging-changed", callback)
+      return () => controls.removeEventListener("dragging-changed", callback)
+    }
+  })
 
-        const mat = meshData.props.material
-        return <MockupMesh
-                  key={meshData.props.geometry.uuid}
-                  geometry={meshData.props.geometry}
-                  color={mat.map ? new THREE.Color("rgb(127,127,127)") : mat.color}
-                  metalness={mat.metalness}
-                  roughness={mat.roughness}
-                  img={mat.map}
-                  selectable={mat.name.includes(".editable") && tool==="materials"}
-                  selected={selectedUid}
-                  setSelected={setSelectedUid}
-                />
-      })}
-    </group>
+  const transformEnabled = () => {
+    return ["translate", "rotate", "scale"].includes(tool) && activeModel === groupRef.current
+  }
+
+  return (
+    <TransformControls ref={transform}
+      enabled={transformEnabled}
+      size={transformEnabled() ? 1 : 0} >
+      {<group {...props} dispose={null} ref={groupRef}
+        // onPointerOver={()=>setCursor()}
+        // onPointerLeave={()=>resetCursor()}
+        onClick={selectModel}
+      >
+        {props.children.map(meshData => {
+          if (meshData.props.geometry === undefined) return
+
+          const mat = meshData.props.material
+          return <MockupMesh
+                    key={meshData.props.geometry.uuid}
+                    geometry={meshData.props.geometry}
+                    color={mat.map ? new THREE.Color("rgb(127,127,127)") : mat.color}
+                    metalness={mat.metalness}
+                    roughness={mat.roughness}
+                    img={mat.map}
+                    selectable={false}//mat.name.includes(".editable") && tool==="materials"}
+                    selected={selectedUid}
+                    setSelected={setSelectedUid}
+                  />
+        })}
+      </group>}
+    </TransformControls>
   )
 }
