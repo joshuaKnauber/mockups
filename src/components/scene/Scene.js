@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera, OrbitControls, softShadows } from '@react-three/drei'
+import { PerspectiveCamera } from '@react-three/drei'
 import * as THREE from "three";
 
 import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
@@ -12,7 +12,6 @@ import MockupScene from './MockupScene';
 
 function Scene() {
 
-  const [doDownload, setDoDownload] = useState(false)
 
   // VIEW SETTINGS
   const [groundShadows, setGroundShadows] = useState(false)
@@ -25,6 +24,7 @@ function Scene() {
   const [hasAlpha, setHasAlpha] = useState(false)
   const [color, setColor] = useState("")
   
+  // REFS
   const colorInpRef = useRef()
   const widthInpRef = useRef()
   const heightInpRef = useRef()
@@ -33,8 +33,10 @@ function Scene() {
   const cameraRef = useRef()
 
   // TOOLS
+  const [doDownload, setDoDownload] = useState(false)
   const tools = ["grab", "materials", "translate", "rotate", "scale"]
   const [toolIndex, setToolIndex] = useState(1)
+
 
   const shorcutPressed = (evt) => {
     const codes = {
@@ -58,11 +60,13 @@ function Scene() {
     }
   }
   
+
   const setBackgroundColor = () => {
     document.getElementsByClassName("App")[0].style.backgroundColor = colorInpRef.current.value
     setColor(colorInpRef.current.value)
     setHasAlpha(false)
   }
+
 
   const setCameraSize = () => {
     const width = Math.max(1, widthInpRef.current.value)
@@ -81,7 +85,7 @@ function Scene() {
   }
 
 
-  useEffect(() => {
+  useEffect(() => { // set alpha
     if (hasAlpha) {
       document.getElementsByClassName("App")[0].classList.add("alpha")
       canvasRef.current.classList.add("alpha")
@@ -110,6 +114,7 @@ function Scene() {
     // set alpha default
     setHasAlpha(true)
     
+    // scale camera to initial size
     setCameraSize()
     
     return () => {
@@ -146,12 +151,12 @@ function Scene() {
         <button className={`iconToggle ${!orbitEnabled&&"active"}`} onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Lock Drag"><FaLock color="white" size={17} /></button>
       </div>
 
-      {/* <button className="addBtn" onClick={() => {}}><FaPlus size={16} color="white"/></button> */}
+      <button className="addBtn" onClick={() => {}}><FaPlus size={16} color="white"/></button>
 
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
       <div className="canvasContainer">
-        <Canvas pixelRatio={window.devicePixelRatio} shadows colorManagement ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
+        <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
           <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} />
 

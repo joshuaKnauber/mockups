@@ -35,14 +35,23 @@ export default function BaseModel(props) {
 
   const [transformMode, setTransformMode] = useState("translate")
 
+  const [selectedMeshUid, setSelectedMeshUid] = useState(null)
+
   useEffect(() => {
     if (!["translate", "rotate", "scale"].includes(tool)) {
-      // setActiveModel(null)
+      setActiveModel(null)
     } else {
       setTransformMode(tool)
     }
   }, [tool])
 
+  const selectModel = (evt) => {
+    if (["translate", "rotate", "scale"].includes(tool)) {
+      setActiveModel(groupRef.current)
+    }
+    evt.stopPropagation()
+  }
+  
   const setCursor = () => {
     if (["translate", "rotate", "scale"].includes(tool)) {
       document.body.classList.add("pointing")
@@ -53,16 +62,6 @@ export default function BaseModel(props) {
       document.body.classList.remove("pointing")
     }
   }
-
-  const selectModel = (evt) => {
-    if (["translate", "rotate", "scale"].includes(tool)) {
-      setActiveModel(groupRef.current)
-    }
-    evt.stopPropagation()
-  }
-
-
-  const [selectedUid, setSelectedUid] = useState(null)
 
   useEffect(() => {
     if (transform.current && orbit.current) {
@@ -83,8 +82,8 @@ export default function BaseModel(props) {
       enabled={transformEnabled}
       size={transformEnabled() ? 1 : 0} >
       {<group {...props} dispose={null} ref={groupRef}
-        // onPointerOver={()=>setCursor()}
-        // onPointerLeave={()=>resetCursor()}
+        onPointerOver={setCursor}
+        onPointerLeave={resetCursor}
         onClick={selectModel}
       >
         {props.children.map(meshData => {
@@ -98,9 +97,9 @@ export default function BaseModel(props) {
                     metalness={mat.metalness}
                     roughness={mat.roughness}
                     img={mat.map}
-                    selectable={false}//mat.name.includes(".editable") && tool==="materials"}
-                    selected={selectedUid}
-                    setSelected={setSelectedUid}
+                    selectable={mat.name.includes(".editable") && tool === "materials"}
+                    selected={selectedMeshUid}
+                    setSelected={setSelectedMeshUid}
                   />
         })}
       </group>}

@@ -21,7 +21,10 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
   const [hovering, setHovering] = useState(false)
 
 
-  const setMeshColor = () => { matRef.current.color.set( hexToRgb(colorInpRef.current.value) ); setBorderColor(colorInpRef.current.value) }
+  const setMeshColor = () => {
+    colorInpRef.current && matRef.current.color.set( hexToRgb(colorInpRef.current.value) );
+    colorInpRef.current && setBorderColor(colorInpRef.current.value)
+  }
   const setMeshMetalness = () => { matRef.current.metalness = metalnessInpRef.current.checked ? 1 : 0 }
   const setMeshRoughness = () => { matRef.current.roughness = roughnessInpRef.current.value }
 
@@ -45,10 +48,12 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
 
   useEffect(() => {
     if (selected === geometry.uuid) {
-      const {r,g,b} = matRef.current.color
-      let color = rgbToHex(Math.floor(r*255),Math.floor(g*255),Math.floor(b*255))
-      colorInpRef.current.value = color
-      setBorderColor(color)
+      if (colorInpRef.current) {
+        const {r,g,b} = matRef.current.color
+        let color = rgbToHex(Math.floor(r*255),Math.floor(g*255),Math.floor(b*255))
+        colorInpRef.current.value = color
+        setBorderColor(color)
+      } 
       metalnessInpRef.current.checked = Boolean(matRef.current.metalness)
       roughnessInpRef.current.value = matRef.current.roughness
     }
@@ -63,55 +68,57 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
 
 
   useEffect(() => {
-    if (imgUrl) {
-      if (typeof(imgUrl) === typeof("")) {
-          const textureLoader = new TextureLoader()
-          textureLoader.load(imgUrl, (tex) => {
-            tex.flipY = false
-            tex.encoding = THREE.sRGBEncoding
-            matRef.current.map = tex
-            matRef.current.needsUpdate = true
-          })
-      }
-      else {
-        imgUrl.anisotropy = 32
-        matRef.current.map = imgUrl
-      }
+    if (typeof(imgUrl) === typeof("")) {
+      const textureLoader = new TextureLoader()
+      textureLoader.load(imgUrl, (tex) => {
+        tex.flipY = false
+        tex.encoding = THREE.sRGBEncoding
+        matRef.current.map = tex
+        matRef.current.needsUpdate = true
+      })
     }
   }, [imgUrl])
 
+  
+  const startHover = (evt) => {
+    if (selectable) {
+      setHovering(true)
+      evt.stopPropagation()
+    }
+  }
+
+
+  const finishHover = (evt) => {
+    if (hovering) {
+      setHovering(false)
+      evt.stopPropagation()
+    }
+  }
+
+
+  const selectMesh = (evt) => {
+    if (hovering && selectable) {
+      setSelected(geometry.uuid)
+      evt.stopPropagation()
+    }
+  }
+
+
+  const deselectMesh = (evt) => {
+    if (selected === geometry.uuid) {
+      setSelected(null)
+      evt.stopPropagation()
+    }
+  }
+
+
   return (
-    <>
     <group castShadow receiveShadow>
       <mesh
-        onPointerOver={(evt)=>{
-          if (selectable) {
-            setHovering(true)
-            evt.stopPropagation()
-          }
-        }}
-        onPointerLeave={(evt)=>{
-          if (hovering) {
-            setHovering(false)
-            // evt.stopPropagation()
-          }
-        }}
-
-        onClick={(evt)=>{
-          if (selectable) {
-            setTimeout(() => {
-              selectable && setSelected(geometry.uuid)
-            }, 20);
-            evt.stopPropagation()
-          }
-        }}
-        onPointerMissed={(evt)=>{
-          if (selectable) {
-            setSelected(null)
-            evt.stopPropagation()
-          }
-        }}
-
+        onPointerEnter={startHover}
+        onPointerLeave={finishHover}
+        onClick={selectMesh}
+        onPointerMissed={deselectMesh}
         castShadow
         receiveShadow
         geometry={geometry}
@@ -124,13 +131,16 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
           roughness={roughness}
           emissive={hovering ? "orange" : "white"}
           emissiveIntensity={hovering ? 5 : 0}
+          map={img}
         />
       </mesh>
 
       {selected === geometry.uuid && <Html position={geometry.boundingBox.max}>
         <div className="materialPopup">
-          <p>Color</p>
-          <input type="color" ref={colorInpRef} onChange={setMeshColor} style={{backgroundColor:borderColor}} />
+          {!img && <>
+            <p>Color</p>
+            <input type="color" ref={colorInpRef} onChange={setMeshColor} style={{backgroundColor:borderColor}} />
+          </>}
           {img && <>
             <p>Image</p>
             <input type="file" ref={imgInpRef} onChange={updateImageUrl} />
@@ -143,6 +153,5 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
       </Html>}
 
     </group>
-    </>
   )
 }

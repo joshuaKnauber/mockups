@@ -50,7 +50,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
         <Environment preset={preset} />
         <Lighting />
 
-        <group position={[0, 0, 0]} dispose={null} onPointerMissed={() => console.log("miss")}>
+        <group position={[0, 0, 0]} dispose={null} >
           <Phone tool={tool} orbit={orbit} setActiveModel={setActiveModel} activeModel={activeModel} />
           <Phone tool={tool} orbit={orbit} setActiveModel={setActiveModel} activeModel={activeModel} />
         </group>
