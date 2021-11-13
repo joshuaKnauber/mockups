@@ -175,11 +175,13 @@ function Scene() {
           onClick={() => setToolIndex(0)}>
             <FaHandPaper size={16} />
         </button>
+        <div className="hSpacer"></div>
         <button
           className={toolIndex === 1 ? "active" : ""}
           onClick={() => setToolIndex(1)}>
             <FaFillDrip size={16} />
         </button>
+        <div className="hSpacer"></div>
         <button
           className={toolIndex === 2 ? "active" : ""}
           onClick={() => setToolIndex(2)}>

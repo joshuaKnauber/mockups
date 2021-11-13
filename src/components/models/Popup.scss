@@ -1,7 +1,9 @@
+@import "../scene/colors";
+
+
 .materialPopup {
+    @include uiColor();
     width: 150px;
-    background-color: white;
-    color: black;
     padding: 20px;
     border-radius: 8px;
     display: flex;

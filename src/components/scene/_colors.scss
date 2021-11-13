@@ -1,0 +1,44 @@
+$btnColorBright: black;
+$btnColorDark: white;
+$txtColorBright: white;
+$txtColorDark: black;
+$overlayColorBright: rgba(255, 255, 255, 0.075);
+$overlayColorDark: rgba(0, 0, 0, 0.075);
+
+
+@mixin txtColor {
+    color: $txtColorBright;
+
+    body.dark & {
+        color: $txtColorDark;
+    }
+}
+
+
+@mixin txtColorInv {
+    color: $txtColorDark;
+
+    body.dark & {
+        color: $txtColorBright;
+    }
+}
+
+
+@mixin uiColor {
+    @include txtColor();
+    background-color: $btnColorBright;
+    
+    body.dark & {
+        background-color: $btnColorDark;
+    }
+}
+
+
+@mixin uiColorInv {
+    @include txtColorInv();
+    background-color: $btnColorDark;
+    
+    body.dark & {
+        background-color: $btnColorBright;
+    }
+}

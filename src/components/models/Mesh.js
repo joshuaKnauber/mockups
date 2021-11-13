@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 import { hexToRgb, rgbToHex } from '../scene/colorUtils';
 
-import "./Popup.css";
+import "./Popup.scss";
 
 
 export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2, img=null, geometry=null, selectable=true, selected, setSelected }) {
