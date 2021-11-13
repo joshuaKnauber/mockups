@@ -136,7 +136,7 @@ function Scene() {
 
     // add default objects
     addMockup("phone")
-    
+
     return () => {
       window.removeEventListener("resize", setCameraSize)
       window.removeEventListener("keypress", shorcutPressed)
@@ -158,8 +158,8 @@ function Scene() {
       </div>
 
       <div className="viewBtnsContainer">
-        <button className={`iconToggle ${groundShadows&&"active"}`} onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} /></button>
-        <button className={`iconToggle ${objectShadows&&"active"}`} onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Object Shadows"><FaCubes color="white" size={17} /></button>
+        <button className={`iconToggle ${objectShadows&&"active"}`} onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Shadows"><FaCubes color="white" size={17} /></button>
+        <button className={`iconToggle ${groundShadows&&objectShadows&&"active"}`} onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} /></button>
         <div className="divider"></div>
         <button className={`iconToggle ${!hasAlpha&&"active"}`} onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} /></button>
         <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input> 
@@ -187,7 +187,7 @@ function Scene() {
         <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
           <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} />
-2
+
           <MockupScene
             groundShadows={groundShadows}
             objectShadows={objectShadows}

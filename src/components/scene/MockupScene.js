@@ -39,7 +39,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
 
   useFrame(({camera}) => {
     if (isCamSet) return
-    camera.position.set(-0.25, 0.25, 0.7)
+    camera.position.set(-1, 4, 7)
     setIsCamSet(true)
   })
 
@@ -51,7 +51,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
         <OrbitControls makeDefault enabled={orbitEnabled} ref={orbit} />
 
         <Environment preset={preset} />
-        <Lighting />
+        <Lighting shadows={objectShadows} />
 
         <group position={[0, 0, 0]} dispose={null} >
           {mockups.map(mockup => {
@@ -68,14 +68,14 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
           })}
         </group>
 
-        {/* <ContactShadows rotation={[Math.PI / 2, 0, 0]} position={[0, -7, 0]} opacity={0.75} width={40} height={40} blur={1} far={9} /> */}
+        <ContactShadows rotation={[Math.PI / 2, 0, 0]} position={[0, -7, 0]} opacity={0.75} width={40} height={40} blur={1} far={9} />
 
-        {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow castShadow>
-          <planeBufferGeometry attach="geometry" args={[10, 10]} />
-          <shadowMaterial attach="material" />
-        </mesh> */}
+        {groundShadows && <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow castShadow>
+          <planeBufferGeometry attach="geometry" args={[15, 15]} />
+          <shadowMaterial attach="material" opacity={.4} />
+        </mesh>}
 
-        {["translate", "rotate", "scale"].includes(tool) && <gridHelper position={[0, 0, 0]} args={[2, 20, "white", "#585858"]}/>}
+        {["translate", "rotate", "scale"].includes(tool) && <gridHelper position={[0, 0, 0]} args={[15, 20, "white", "#585858"]}/>}
       </scene>
     </Suspense>
   );
