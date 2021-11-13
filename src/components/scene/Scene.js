@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera, Sphere } from '@react-three/drei'
-import * as THREE from "three";
+import { PerspectiveCamera } from '@react-three/drei'
 
 import uuid from 'react-uuid'
-import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
+import { FaCamera, FaAdjust, FaLightbulb, FaClone, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompressArrowsAlt, FaFillDrip, FaHandPaper, FaTimes } from 'react-icons/fa';
 
-import './Scene.css';
+import './Scene.scss';
 import MockupScene from './MockupScene';
+import Slider from './Slider';
+
+import { brightnessByColor } from './colorUtils';
 
 
 // ADD YOUR MODEL KEY AND DISPLAY NAME TO THIS LIST
@@ -24,7 +26,7 @@ function Scene() {
   const [groundShadows, setGroundShadows] = useState(false)
   const [objectShadows, setObjectShadows] = useState(true)
 
-  const [fov, setFov] = useState(0)
+  const [fov, setFov] = useState(20)
 
   const [orbitEnabled, setOrbitEnabled] = useState(true)
 
@@ -69,12 +71,25 @@ function Scene() {
       setToolIndex(codes[evt.code])
     }
   }
+
+
+  const setBtnDarkness = () => {
+    const bright = brightnessByColor(colorInpRef.current.value)
+    if (bright > 128) {
+      document.body.classList.remove("dark")
+    } else {
+      document.body.classList.add("dark")
+    }
+  }
   
 
   const setBackgroundColor = () => {
     document.getElementsByClassName("App")[0].style.backgroundColor = colorInpRef.current.value
     setColor(colorInpRef.current.value)
+
     setHasAlpha(false)
+
+    setBtnDarkness()
   }
 
 
@@ -101,13 +116,20 @@ function Scene() {
   }
 
 
+  const removeMockup = (uuid) => {
+    setMockups(current => current.filter(item => item.key !== uuid))
+  }
+
+
   useEffect(() => { // set alpha
     if (hasAlpha) {
-      document.getElementsByClassName("App")[0].classList.add("alpha")
-      canvasRef.current.classList.add("alpha")
+      document.getElementsByClassName("App")[0].classList.add("alphaGrid")
+      canvasRef.current.classList.add("alphaGrid")
+      document.body.classList.remove("dark")
     } else {
-      document.getElementsByClassName("App")[0].classList.remove("alpha")
-      canvasRef.current.classList.remove("alpha")
+      document.getElementsByClassName("App")[0].classList.remove("alphaGrid")
+      canvasRef.current.classList.remove("alphaGrid")
+      setBtnDarkness()
     }
   }, [hasAlpha])
 
@@ -117,8 +139,9 @@ function Scene() {
     window.addEventListener("keypress", shorcutPressed)
     
     // set default camera size
-    widthInpRef.current.value = window.innerWidth-20
-    heightInpRef.current.value = window.innerHeight-20
+    // const size = Math.min(window.innerWidth-20, window.innerHeight-20)
+    widthInpRef.current.value = 1920
+    heightInpRef.current.value = 1080
     
     // set default fov
     setFov(20)
@@ -144,43 +167,92 @@ function Scene() {
 
 
   return (
-    <div className="sceneContainer">
+    <div className="scene">
 
-      <div className="toolBtnsContainer">
-        <button className={`iconToggle tool ${toolIndex===0&&"active"}`} onClick={() => setToolIndex(0)} bottom-tooltip="Drag (Space)"><FaHandPaper color="white" size={17} /></button>
-        <div className="dividerSmall"></div>
-        <button className={`iconToggle tool ${toolIndex===1&&"active"}`} onClick={() => setToolIndex(1)} bottom-tooltip="Materials (M,F)"><FaFillDrip color="white" size={17} /></button>
-        <div className="dividerSmall"></div>
-        <button className={`iconToggle tool ${toolIndex===2&&"active"}`} onClick={() => setToolIndex(2)} bottom-tooltip="Move (Q,G)"><FaArrowsAlt color="white" size={17} /></button>
-        <button className={`iconToggle tool ${toolIndex===3&&"active"}`} onClick={() => setToolIndex(3)} bottom-tooltip="Rotate (W,R)"><FaSyncAlt color="white" size={17} /></button>
-        <button className={`iconToggle tool ${toolIndex===4&&"active"}`} onClick={() => setToolIndex(4)} bottom-tooltip="Scale (E,S)"><FaCompress color="white" size={17} /></button>
+      <div className="toolbar">
+        <button
+          className={toolIndex === 0 ? "active" : ""}
+          onClick={() => setToolIndex(0)}>
+            <FaHandPaper size={16} />
+        </button>
+        <button
+          className={toolIndex === 1 ? "active" : ""}
+          onClick={() => setToolIndex(1)}>
+            <FaFillDrip size={16} />
+        </button>
+        <button
+          className={toolIndex === 2 ? "active" : ""}
+          onClick={() => setToolIndex(2)}>
+            <FaArrowsAlt size={16} />
+        </button>
+        <button
+          className={toolIndex === 3 ? "active" : ""}
+          onClick={() => setToolIndex(3)}>
+            <FaSyncAlt size={16} />
+        </button>
+        <button
+          className={toolIndex === 4 ? "active" : ""}
+          onClick={() => setToolIndex(4)}>
+            <FaCompressArrowsAlt size={16} />
+        </button>
       </div>
 
-      <div className="viewBtnsContainer">
-        <button className={`iconToggle ${objectShadows&&"active"}`} onClick={() => setObjectShadows(!objectShadows)} bottom-tooltip="Shadows"><FaCubes color="white" size={17} /></button>
-        <button className={`iconToggle ${groundShadows&&objectShadows&&"active"}`} onClick={() => setGroundShadows(!groundShadows)} bottom-tooltip="Ground Shadows"><FaCube color="white" size={17} /></button>
-        <div className="divider"></div>
-        <button className={`iconToggle ${!hasAlpha&&"active"}`} onClick={() => setHasAlpha(!hasAlpha)} bottom-tooltip="Background"><FaTint color="white" size={17} /></button>
-        <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input> 
-        <div className="divider"></div>
+      <div className="cameraSettings">
         <input type="number" onChange={setCameraSize} ref={widthInpRef} />
+        <FaTimes size={16} />
         <input type="number" onChange={setCameraSize} ref={heightInpRef} />
-        <div className="divider"></div>
-        <input type="range" value={fov} min="10" max="50" step={2} onChange={(evt) => setFov(evt.target.value)} className="fovInp" />
-        <button className={`iconToggle ${!orbitEnabled&&"active"}`} onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Lock Drag"><FaLock color="white" size={17} /></button>
+        <Slider value={fov} setValue={setFov} min={10} max={50} />
       </div>
+
+      <div className="viewportSettings">
+        <button
+          className={!hasAlpha ? "active" : ""}
+          onClick={() => setHasAlpha(!hasAlpha)}
+          tooltip="Background">
+            <FaAdjust size={16} />
+        </button>
+        <input type="color" onChange={setBackgroundColor} ref={colorInpRef} style={{backgroundColor: colorInpRef.current?.value}}></input> 
+        <div className="hSpacer"></div>
+        <button
+          className={objectShadows ? "active" : ""}
+          onClick={() => setObjectShadows(!objectShadows)}
+          tooltip="Shadows">
+            <FaLightbulb size={16} />
+        </button>
+        <button
+          className={groundShadows && objectShadows ? "active" : ""}
+          onClick={() => setGroundShadows(!groundShadows)}
+          tooltip="Ground Shadows">
+            <FaClone size={16} />
+        </button>
+      </div>
+
+      <button
+        className={!orbitEnabled ? "lockViewBtn active" : "lockViewBtn"}
+        onClick={() => setOrbitEnabled(!orbitEnabled)}>
+          <FaLock size={16} />
+      </button>
 
       <div className="addPopup" style={{transform: showAddModels ? 'scale(100%)' : 'scale(0%)' }}>
         {Object.keys(modelNames).map(key => {
           return <button key={key} className="addModelBtn" onClick={() => addMockup(key)}>
-                  <FaPlus size={10} color="white" style={{marginRight:"8px"}}/>
+                  <FaPlus size={10} style={{marginRight:"8px"}}/>
                   {modelNames[key]}
                 </button>
         })}
       </div>
-      <button className="addBtn" onClick={() => setShowAddModels(current => !current)}><FaPlus size={16} color="white"/></button>
+      
+      <button
+        className="addBtn"
+        onClick={() => setShowAddModels(current => !current)}>
+          <FaPlus size={16}/>
+      </button>
 
-      <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
+      <button
+        className="downloadBtn"
+        onClick={() => setDoDownload(true)}>
+          <FaCamera size={16}/>
+      </button>
 
       <div className="canvasContainer">
         <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
@@ -197,6 +269,7 @@ function Scene() {
             height={heightInpRef.current ? heightInpRef.current.value : 0}
             tool={tools[toolIndex]}
             mockups={mockups}
+            removeMockup={removeMockup}
           />
 
           {!hasAlpha && <color attach="background" args={[color]} />}

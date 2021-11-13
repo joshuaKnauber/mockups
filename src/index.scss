@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'ClarityCity';
+  font-weight: 400;
+  src: local('ClarityCity'), url(./fonts/ClarityCity-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'ClarityCity';
+  font-weight: 400;
+  font-style: italic;
+  src: local('ClarityCity'), url(./fonts/ClarityCity-RegularItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'ClarityCity';
+  font-weight: 600;
+  src: local('ClarityCity'), url(./fonts/ClarityCity-SemiBold.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'ClarityCity';
+  font-weight: 800;
+  src: local('ClarityCity'), url(./fonts/ClarityCity-Bold.woff) format('woff');
+}
+
+
+* {
+  font-family: "ClarityCity";
+}
+
+
+body {
+  margin: 0;
+  font-family: "ClarityCity", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+  background-color: black;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

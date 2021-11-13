@@ -1,33 +1,12 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import * as THREE from "three";
-import { TransformControls, Sphere } from '@react-three/drei'
+import { TransformControls } from '@react-three/drei'
 
 import MockupMesh from './Mesh';
 
 
-export const hexToRgb = (hex) => {
-  // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-    return r + r + g + g + b + b;
-  });
-
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`
-}
-
-function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
-export function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-
 export default function BaseModel(props) {
-  const { tool, orbit, activeModel, setActiveModel } = props
+  const { tool, orbit, activeModel, setActiveModel, mockupUuid } = props
 
   const groupRef = useRef()
 
@@ -82,7 +61,7 @@ export default function BaseModel(props) {
     <TransformControls ref={transform}
       enabled={transformEnabled}
       size={transformEnabled() ? 1 : 0} >
-      {<group {...props} dispose={null} ref={groupRef}
+      {<group {...props} dispose={null} ref={groupRef} mockupUuid={mockupUuid}
         onPointerOver={setCursor}
         onPointerLeave={resetCursor}
         onClick={selectModel}

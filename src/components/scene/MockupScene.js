@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useRef, Suspense } from 'react'
+import React, { useState, useRef, Suspense, useEffect } from 'react'
 
 import { useFrame } from '@react-three/fiber'
-import { OrbitControls, TransformControls, ContactShadows, Sphere } from '@react-three/drei'
-import { EffectComposer, SSAO, SMAA } from '@react-three/postprocessing'
-import { EdgeDetectionMode } from 'postprocessing'
-import * as THREE from "three";
+import { OrbitControls, ContactShadows } from '@react-three/drei'
 
 import Environment from './Environment'
 import Lighting from './Lighting'
@@ -15,7 +12,7 @@ import Phone from '../models/mockups/Phone'
 import Suzanne from '../models/mockups/Suzanne'
 
 
-function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, setDoDownload, width, height, tool, mockups }) {
+function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, setDoDownload, width, height, tool, mockups, removeMockup }) {
 
   const orbit = useRef()
 
@@ -44,6 +41,22 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
     setIsCamSet(true)
   })
 
+  const shorcutPressed = (evt) => {
+    if (["Backspace", "Delete"].includes(evt.code)) {
+      if (["translate", "rotate", "scale"].includes(tool) && activeModel) {
+        removeMockup(activeModel.mockupUuid)
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keyup", shorcutPressed)
+
+    return () => {
+      window.removeEventListener("keyup", shorcutPressed)
+    }
+  }, [activeModel])
+
   const preset = "bridge2"
 
   return (
@@ -56,7 +69,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
 
         <group position={[0, 0, 0]} dispose={null} >
           {mockups.map(mockup => {
-            const mockupProps = { key: mockup.key, tool: tool, orbit: orbit, activeModel: activeModel, setActiveModel: setActiveModel }
+            const mockupProps = { key: mockup.key, tool: tool, orbit: orbit, activeModel: activeModel, setActiveModel: setActiveModel, mockupUuid: mockup.key }
 
             // ADD A CASE HERE WHEN ADDING A NEW MODEL. MAKE SURE TO PASS THE mockupProps AND USE THE SAME KEY AS IN modelNames
             switch (mockup.type) {

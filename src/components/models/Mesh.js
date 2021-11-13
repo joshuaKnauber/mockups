@@ -3,7 +3,7 @@ import { TextureLoader } from 'three'
 import { Html } from '@react-three/drei'
 import * as THREE from "three";
 
-import { hexToRgb, rgbToHex } from './BaseModel';
+import { hexToRgb, rgbToHex } from '../scene/colorUtils';
 
 import "./Popup.css";
 

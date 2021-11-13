@@ -1,0 +1,306 @@
+$btnColorBright: black;
+$btnColorDark: white;
+$txtColorBright: white;
+$txtColorDark: black;
+$overlayColorBright: rgba(255, 255, 255, 0.075);
+$overlayColorDark: rgba(0, 0, 0, 0.075);
+
+
+$bodyMargin: 20px;
+$btnHeight: 48px;
+$toggleWidth: 60px;
+$toggleHeight: 35px;
+
+
+.scene {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.canvasContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+canvas {
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+}
+
+
+@mixin btnContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@mixin txtColor {
+    color: $txtColorBright;
+
+    body.dark & {
+        color: $txtColorDark;
+    }
+}
+
+
+@mixin txtColorInv {
+    color: $txtColorDark;
+
+    body.dark & {
+        color: $txtColorBright;
+    }
+}
+
+
+@mixin uiColor {
+    @include txtColor();
+    background-color: $btnColorBright;
+    
+    body.dark & {
+        background-color: $btnColorDark;
+    }
+}
+
+
+@mixin uiColorInv {
+    @include txtColorInv();
+    background-color: $btnColorDark;
+    
+    body.dark & {
+        background-color: $btnColorBright;
+    }
+}
+
+
+@mixin flexBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+@mixin iconBtn {
+    @include uiColor();
+    @include flexBtn();
+}
+
+
+@mixin toggle {
+    @include flexBtn();
+    width: $toggleWidth;
+    height: $toggleHeight;
+
+    opacity: 0.5;
+    background: $btnColorBright;
+    color: $txtColorBright;
+    border-radius: 20px;
+    
+    body.dark & {
+        background: $btnColorDark;
+        color: $txtColorDark;
+    }
+}
+
+
+.toolbar {
+    @include btnContainer();
+    bottom: $bodyMargin;
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    button {
+        @include iconBtn();
+        width: $btnHeight;
+        height: $btnHeight;
+        border-radius: $btnHeight;
+        margin: 0px 5px;
+        opacity: 0.5;
+    }
+}
+
+
+.cameraSettings {
+    @include btnContainer();
+    @include txtColorInv();
+    top: $bodyMargin;
+    left: $bodyMargin;
+
+    input[type=number] {
+        @include uiColor();
+        @include flexBtn();
+        cursor: text;
+        width: 100px;
+        height: $toggleHeight;
+        font-weight: 600;
+        font-size: 13px;
+        border-radius: 20px;
+        margin: 0px 5px;
+        position: relative;
+
+        &:first-of-type {
+            margin-left: 0px;
+        }
+    }
+
+    .rangeBackground {
+        margin-left: 20px;
+        padding: 0px 12px;
+        border-radius: 20px;
+        @include uiColor();
+    }
+    
+    .rangeTrack {
+        width: 80px;
+        height: 20px;
+        @include uiColor();
+    }
+    
+    .rangeThumb {
+        @include uiColorInv();
+        width: 14px;
+        height: 14px;
+        border-radius: 20px;
+    }
+
+}
+
+
+.viewportSettings {
+    @include btnContainer();
+    top: $bodyMargin;
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    button {
+        @include toggle();
+        margin: 0px 2px;
+
+        &:before {
+            content: attr(tooltip);
+            position: absolute;
+            @include uiColor();
+            top: $toggleHeight + 4px;
+            border-radius: 4px;
+            padding: 5px 10px;
+            white-space: nowrap;
+            font-size: 12px;
+            display: none;
+        }
+
+        &:hover:before {
+            display: block;
+        }
+    }
+
+    input[type=color] {
+        width: $toggleWidth;
+        height: $toggleHeight;
+        border-radius: 20px;
+        box-sizing: border-box;
+        margin: 0px 2px;
+
+        border: 2px solid $btnColorBright;
+
+        body.dark & {
+            border-color: $btnColorDark;
+        }
+    }
+}
+
+
+.lockViewBtn {
+    @include btnContainer();
+    @include toggle();
+    top: $bodyMargin;
+    right: $bodyMargin;
+}
+
+
+.active {
+    opacity: 1 !important;
+}
+
+
+.downloadBtn {
+    @include btnContainer();
+    @include iconBtn();
+    bottom: $bodyMargin;
+    right: $bodyMargin;
+    width: 100px;
+    height: $btnHeight;
+    border-radius: 20px;
+}
+
+
+.addBtn {
+    @include btnContainer();
+    @include iconBtn();
+    bottom: $bodyMargin;
+    left: $bodyMargin;
+    width: 80px;
+    height: $btnHeight;
+    border-radius: 20px;
+}
+
+
+.addPopup {
+    @include btnContainer();
+    @include uiColor();
+    flex-direction: column;
+    padding: 14px;
+    border-radius: 10px;
+    bottom: $bodyMargin + $btnHeight + 10px;
+    left: $bodyMargin + 80px;
+    transition: all .08s ease-in-out;
+    transform-origin: bottom left;
+
+    button {
+        @include iconBtn();
+        height: 30px;
+        min-width: 200px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 8px;
+        margin-bottom: 8px;
+
+        &:last-of-type {
+            margin-bottom: 0px;
+        }
+
+        background-color: $overlayColorBright;
+        color: $txtColorBright;
+
+        body.dark & {
+            background-color: $overlayColorDark;
+            color: $txtColorDark;
+        }
+    }
+}
+
+
+.hSpacer {
+    width: 20px;
+}
+
+.vSpacer {
+    height: 20px;
+}
