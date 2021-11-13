@@ -119,23 +119,9 @@ canvas {
     }
 
     .rangeBackground {
-        margin-left: 20px;
-        padding: 0px 12px;
-        border-radius: 20px;
-        @include uiColor();
-    }
-    
-    .rangeTrack {
         width: 80px;
-        height: 20px;
+        margin-left: 20px;
         @include uiColor();
-    }
-    
-    .rangeThumb {
-        @include uiColorInv();
-        width: 14px;
-        height: 14px;
-        border-radius: 20px;
     }
 
 }

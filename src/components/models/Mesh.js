@@ -5,6 +5,7 @@ import * as THREE from "three";
 
 import { hexToRgb, rgbToHex } from '../scene/colorUtils';
 
+import Slider from '../scene/Slider';
 import "./Popup.scss";
 
 
@@ -15,7 +16,7 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
   const colorInpRef = useRef()
   const [borderColor, setBorderColor] = useState("white")
   const metalnessInpRef = useRef()
-  const roughnessInpRef = useRef()
+  const [roughnessValue, setRoughnessValue] = useState(roughness)
 
   const [imgUrl, setImgUrl] = useState(img)
   const [hovering, setHovering] = useState(false)
@@ -26,7 +27,6 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
     colorInpRef.current && setBorderColor(colorInpRef.current.value)
   }
   const setMeshMetalness = () => { matRef.current.metalness = metalnessInpRef.current.checked ? 1 : 0 }
-  const setMeshRoughness = () => { matRef.current.roughness = roughnessInpRef.current.value }
 
 
   const updateImageUrl = async (evt) => {
@@ -38,6 +38,11 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
     const imageUrl = urlCreator.createObjectURL(blob)
     setImgUrl(imageUrl)
   }
+
+
+  useEffect(() => {
+    matRef.current.roughness = roughnessValue
+  }, [roughnessValue])
 
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
         setBorderColor(color)
       } 
       metalnessInpRef.current.checked = Boolean(matRef.current.metalness)
-      roughnessInpRef.current.value = matRef.current.roughness
+      setRoughnessValue(roughness)
     }
   }, [selected])
 
@@ -146,9 +151,9 @@ export default function MockupMesh ({ color="FFFFFF", metalness=0, roughness=0.2
             <input type="file" ref={imgInpRef} onChange={updateImageUrl} />
           </>}
           <p>Metal</p>
-          <input type="checkbox" ref={metalnessInpRef} onChange={setMeshMetalness} />
+          <input type="checkbox" id="switch" ref={metalnessInpRef} onChange={setMeshMetalness} /><label for="switch">Toggle</label>
           <p>Roughness</p>
-          <input type="range" ref={roughnessInpRef} min="0" max="1" step={0.01} onChange={setMeshRoughness} />
+          <Slider min={0} max={1} step={0.01} value={roughnessValue} setValue={setRoughnessValue} />
         </div>
       </Html>}
 

@@ -50,7 +50,7 @@ function Scene() {
   const [toolIndex, setToolIndex] = useState(1)
 
 
-  const shorcutPressed = (evt) => {
+  const shortcutPressed = (evt) => {
     const codes = {
       "Space": 0,
       "Digit1": 0,
@@ -75,7 +75,7 @@ function Scene() {
 
   const setBtnDarkness = () => {
     const bright = brightnessByColor(colorInpRef.current.value)
-    if (bright > 128) {
+    if (bright > 50) {
       document.body.classList.remove("dark")
     } else {
       document.body.classList.add("dark")
@@ -136,7 +136,7 @@ function Scene() {
 
   useEffect(() => {
     window.addEventListener("resize", setCameraSize)
-    window.addEventListener("keypress", shorcutPressed)
+    window.addEventListener("keypress", shortcutPressed)
     
     // set default camera size
     // const size = Math.min(window.innerWidth-20, window.innerHeight-20)
@@ -161,7 +161,7 @@ function Scene() {
 
     return () => {
       window.removeEventListener("resize", setCameraSize)
-      window.removeEventListener("keypress", shorcutPressed)
+      window.removeEventListener("keypress", shortcutPressed)
     }
   }, [])
 
@@ -259,7 +259,7 @@ function Scene() {
       <div className="canvasContainer">
         <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
-          <PerspectiveCamera makeDefault fov={fov} position={[0, 0, 10]} />
+          <PerspectiveCamera makeDefault fov={fov} position={[-3, -1, 4]} />
 
           <MockupScene
             groundShadows={groundShadows}

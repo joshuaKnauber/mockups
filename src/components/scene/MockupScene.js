@@ -18,8 +18,6 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
 
   const [activeModel, setActiveModel] = useState(null)
 
-  const [isCamSet, setIsCamSet] = useState(false)
-
   const downloadImage = (state) => {
     if (!doDownload) return
     
@@ -34,14 +32,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
 
   useFrame((state) => downloadImage(state))
 
-  useFrame(({camera}) => {
-    if (isCamSet) return
-    camera.position.set(-3, -1, 4)
-    camera.lookAt(0,0.7,0)
-    setIsCamSet(true)
-  })
-
-  const shorcutPressed = (evt) => {
+  const shortcutPressed = (evt) => {
     if (["Backspace", "Delete"].includes(evt.code)) {
       if (["translate", "rotate", "scale"].includes(tool) && activeModel) {
         removeMockup(activeModel.mockupUuid)
@@ -50,10 +41,10 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
   }
 
   useEffect(() => {
-    window.addEventListener("keyup", shorcutPressed)
+    window.addEventListener("keyup", shortcutPressed)
 
     return () => {
-      window.removeEventListener("keyup", shorcutPressed)
+      window.removeEventListener("keyup", shortcutPressed)
     }
   }, [activeModel])
 
@@ -62,7 +53,7 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
   return (
     <Suspense fallback={null}>
       <scene>
-        <OrbitControls makeDefault enabled={orbitEnabled} ref={orbit} />
+        <OrbitControls makeDefault enabled={orbitEnabled} ref={orbit} target={[0, 0.7, 0]} />
 
         <Environment preset={preset} />
         <Lighting shadows={objectShadows} />
