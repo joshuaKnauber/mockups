@@ -12,11 +12,11 @@ export default function Lighting() {
   return (
     <group>
       <ambientLight intensity={1} />
-      <pointLight
+      {/* <pointLight
         position={[1, 2, 0]}
         intensity={1}
         castShadow
-      />
+      /> */}
     </group>
   )
 }

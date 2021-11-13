@@ -77,6 +77,7 @@ export default function BaseModel(props) {
     return ["translate", "rotate", "scale"].includes(tool) && activeModel === groupRef.current
   }
 
+  let meshes = React.Children.toArray(props.children)
   return (
     <TransformControls ref={transform}
       enabled={transformEnabled}
@@ -86,7 +87,7 @@ export default function BaseModel(props) {
         onPointerLeave={resetCursor}
         onClick={selectModel}
       >
-        {props.children.map(meshData => {
+        {meshes.map(meshData => {
           if (meshData.props.geometry === undefined) return
 
           const mat = meshData.props.material

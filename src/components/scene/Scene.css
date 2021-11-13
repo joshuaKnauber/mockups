@@ -75,6 +75,39 @@ canvas {
 }
 
 
+.addPopup {
+    position: fixed;
+    z-index: 1;
+    bottom: 80px;
+    left: 80px;
+    border-radius: 8px;
+    padding: 14px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    transition: all .08s ease-in-out;
+    transform-origin: bottom left;
+}
+
+.addModelBtn {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 4px;
+    padding: 10px 40px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.addModelBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.addModelBtn:last-of-type {
+    margin-bottom: 0px;
+}
+
+
 .iconToggle {
     width: 40px;
     height: 40px;

@@ -1,17 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera, Sphere } from '@react-three/drei'
 import * as THREE from "three";
 
+import uuid from 'react-uuid'
 import { FaCamera, FaTint, FaCube, FaCubes, FaLock, FaPlus, FaArrowsAlt, FaSyncAlt, FaCompress, FaFillDrip, FaHandPaper } from 'react-icons/fa';
 
 import './Scene.css';
 import MockupScene from './MockupScene';
 
 
-function Scene() {
+// ADD YOUR MODEL KEY AND DISPLAY NAME TO THIS LIST
+const modelNames = {
+  phone: "Smartphone",
+  suzanne: "Suzanne"
+}
 
+
+function Scene() {
 
   // VIEW SETTINGS
   const [groundShadows, setGroundShadows] = useState(false)
@@ -23,6 +30,10 @@ function Scene() {
 
   const [hasAlpha, setHasAlpha] = useState(false)
   const [color, setColor] = useState("")
+  
+  const [mockups, setMockups] = useState([])
+
+  const [showAddModels, setShowAddModels] = useState(false)
   
   // REFS
   const colorInpRef = useRef()
@@ -85,6 +96,12 @@ function Scene() {
   }
 
 
+  const addMockup = (modelType) => {
+    setMockups(current => [...current, {key: uuid(), type: modelType}])
+    setShowAddModels(false)
+  }
+
+
   useEffect(() => { // set alpha
     if (hasAlpha) {
       document.getElementsByClassName("App")[0].classList.add("alpha")
@@ -116,6 +133,9 @@ function Scene() {
     
     // scale camera to initial size
     setCameraSize()
+
+    // add default objects
+    addMockup("phone")
     
     return () => {
       window.removeEventListener("resize", setCameraSize)
@@ -151,7 +171,15 @@ function Scene() {
         <button className={`iconToggle ${!orbitEnabled&&"active"}`} onClick={() => setOrbitEnabled(!orbitEnabled)} bottom-tooltip="Lock Drag"><FaLock color="white" size={17} /></button>
       </div>
 
-      <button className="addBtn" onClick={() => {}}><FaPlus size={16} color="white"/></button>
+      <div className="addPopup" style={{transform: showAddModels ? 'scale(100%)' : 'scale(0%)' }}>
+        {Object.keys(modelNames).map(key => {
+          return <button key={key} className="addModelBtn" onClick={() => addMockup(key)}>
+                  <FaPlus size={10} color="white" style={{marginRight:"8px"}}/>
+                  {modelNames[key]}
+                </button>
+        })}
+      </div>
+      <button className="addBtn" onClick={() => setShowAddModels(current => !current)}><FaPlus size={16} color="white"/></button>
 
       <button className="downloadBtn" onClick={() => setDoDownload(true)}><FaCamera size={16} color="white"/></button>
 
@@ -159,7 +187,7 @@ function Scene() {
         <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
           <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} />
-
+2
           <MockupScene
             groundShadows={groundShadows}
             objectShadows={objectShadows}
@@ -169,6 +197,7 @@ function Scene() {
             width={widthInpRef.current ? widthInpRef.current.value : 0}
             height={heightInpRef.current ? heightInpRef.current.value : 0}
             tool={tools[toolIndex]}
+            mockups={mockups}
           />
 
           {!hasAlpha && <color attach="background" args={[color]} />}

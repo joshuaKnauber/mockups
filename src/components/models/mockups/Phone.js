@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
-import BaseModel from './BaseModel'
+import BaseModel from '../BaseModel'
 
 import PhoneModel from './phone.gltf'
 

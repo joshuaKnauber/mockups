@@ -9,10 +9,13 @@ import * as THREE from "three";
 import Environment from './Environment'
 import Lighting from './Lighting'
 
-import Phone from '../models/Phone'
+
+// IMPORT YOUR MODEL HERE
+import Phone from '../models/mockups/Phone'
+import Suzanne from '../models/mockups/Suzanne'
 
 
-function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, setDoDownload, width, height, tool }) {
+function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, setDoDownload, width, height, tool, mockups }) {
 
   const orbit = useRef()
 
@@ -51,8 +54,18 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
         <Lighting />
 
         <group position={[0, 0, 0]} dispose={null} >
-          <Phone tool={tool} orbit={orbit} setActiveModel={setActiveModel} activeModel={activeModel} />
-          <Phone tool={tool} orbit={orbit} setActiveModel={setActiveModel} activeModel={activeModel} />
+          {mockups.map(mockup => {
+            const mockupProps = { key: mockup.key, tool: tool, orbit: orbit, activeModel: activeModel, setActiveModel: setActiveModel }
+
+            // ADD A CASE HERE WHEN ADDING A NEW MODEL. MAKE SURE TO PASS THE mockupProps AND USE THE SAME KEY AS IN modelNames
+            switch (mockup.type) {
+              case "phone":
+                return <Phone {...mockupProps} />
+              case "suzanne":
+                return <Suzanne {...mockupProps} />
+            }
+
+          })}
         </group>
 
         {/* <ContactShadows rotation={[Math.PI / 2, 0, 0]} position={[0, -7, 0]} opacity={0.75} width={40} height={40} blur={1} far={9} /> */}
