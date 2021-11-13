@@ -186,19 +186,21 @@ function Scene() {
       <div className="canvasContainer">
         <Canvas shadows ref={canvasRef} gl={{ preserveDrawingBuffer: true, antialias: true }} >
 
-          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} />
+          <PerspectiveCamera makeDefault ref={cameraRef} fov={fov} position={[-1, 2, 7]} />
 
-          <MockupScene
-            groundShadows={groundShadows}
-            objectShadows={objectShadows}
-            orbitEnabled={orbitEnabled}
-            doDownload={doDownload}
-            setDoDownload={setDoDownload}
-            width={widthInpRef.current ? widthInpRef.current.value : 0}
-            height={heightInpRef.current ? heightInpRef.current.value : 0}
-            tool={tools[toolIndex]}
-            mockups={mockups}
-          />
+          <group position={[0, -0.5, 0]}>
+            <MockupScene
+              groundShadows={groundShadows}
+              objectShadows={objectShadows}
+              orbitEnabled={orbitEnabled}
+              doDownload={doDownload}
+              setDoDownload={setDoDownload}
+              width={widthInpRef.current ? widthInpRef.current.value : 0}
+              height={heightInpRef.current ? heightInpRef.current.value : 0}
+              tool={tools[toolIndex]}
+              mockups={mockups}
+            />
+          </group>
 
           {!hasAlpha && <color attach="background" args={[color]} />}
 

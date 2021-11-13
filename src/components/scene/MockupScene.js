@@ -21,8 +21,6 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
 
   const [activeModel, setActiveModel] = useState(null)
 
-  const [isCamSet, setIsCamSet] = useState(false)
-
   const downloadImage = (state) => {
     if (!doDownload) return
     
@@ -36,12 +34,6 @@ function MockupScene({ groundShadows, objectShadows, orbitEnabled, doDownload, s
   }
 
   useFrame((state) => downloadImage(state))
-
-  useFrame(({camera}) => {
-    if (isCamSet) return
-    camera.position.set(-1, 4, 7)
-    setIsCamSet(true)
-  })
 
   const preset = "bridge2"
 
